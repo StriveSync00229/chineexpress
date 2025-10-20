@@ -20,10 +20,16 @@ const config = {
     },
     extend: {
       colors: {
-        "bleu-nuit": "#0D1B2A",
-        dore: "#FFC857",
-        blanc: "#FFFFFF",
-        "noir-profond": "#000000",
+        // Nouvelle palette principale
+        "rouge-profond": "#D7263D",      // Rouge chinois énergique
+        "gris-anthracite": "#2E2E2E",    // Gris stable
+        "blanc-pur": "#FFFFFF",          // Blanc de confiance
+        
+        // Couleurs complémentaires conservées
+        "bleu-nuit": "#0D1B2A",          // Bleu nuit profond
+        dore: "#FFC857",                 // Doré chaleureux
+        
+        // Variables CSS pour les thèmes
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -64,8 +70,11 @@ const config = {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        sans: ["var(--font-lato)", "sans-serif"],
-        serif: ["var(--font-playfair-display)", "serif"],
+        "logo-titres": ["var(--font-poppins)", "sans-serif"], // Poppins Bold/SemiBold pour logos et titres
+        "sous-titres": ["var(--font-poppins)", "sans-serif"], // Poppins Medium pour sous-titres et menus
+        "paragraphes": ["var(--font-inter)", "sans-serif"],   // Inter Regular pour paragraphes
+        "boutons": ["var(--font-inter)", "sans-serif"],       // Inter Medium pour boutons/CTA
+        sans: ["var(--font-inter)", "sans-serif"],           // Défaut pour la compatibilité
       },
       keyframes: {
         "accordion-down": {
@@ -76,10 +85,20 @@ const config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "fade-in": {
+          from: { opacity: "0", transform: "translateY(20px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+        "fade-in-up": {
+          from: { opacity: "0", transform: "translateY(30px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "fade-in": "fade-in 0.6s ease-out forwards",
+        "fade-in-up": "fade-in-up 0.8s ease-out forwards",
       },
     },
   },

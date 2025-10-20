@@ -1,13 +1,13 @@
-import { Playfair_Display, Lato } from "next/font/google"
+import { Poppins, Inter } from "next/font/google"
 
-export const playfairDisplay = Playfair_Display({
+export const poppins = Poppins({
   subsets: ["latin"],
-  variable: "--font-playfair-display",
-  weight: ["400", "700"],
+  variable: "--font-poppins",
+  weight: ["400", "500", "600", "700"], // Regular, Medium, SemiBold, Bold
 })
 
-export const lato = Lato({
+export const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-lato",
-  weight: ["400", "700"],
+  variable: "--font-inter", 
+  weight: ["400", "500"], // Regular, Medium
 })

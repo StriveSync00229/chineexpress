@@ -1,6 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { playfairDisplay, lato } from "@/lib/fonts"
+import { poppins, inter } from "@/lib/fonts"
 import "./globals.css"
 import { cn } from "@/lib/utils"
 import { Toaster } from "@/components/ui/toaster" // Updated to sonner based on typical shadcn setup
@@ -25,11 +25,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
-      <body className={cn("min-h-screen bg-blanc font-sans antialiased", lato.variable, playfairDisplay.variable)}>
-        <Header />
-        <main className="flex-grow">{children}</main>
-        <Footer />
-        <Toaster />
+      <body className={cn("min-h-screen bg-blanc font-paragraphes antialiased", inter.variable, poppins.variable)}>
+          <Header />
+          <main className="flex-grow">{children}</main>
+          <Footer />
+          <Toaster />
       </body>
     </html>
   )

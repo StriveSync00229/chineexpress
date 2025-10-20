@@ -34,18 +34,32 @@ const services = [
 
 export default function ServicesListSection() {
   return (
-    <section className="py-16 md:py-24">
+    <section className="py-16 md:py-24 bg-gradient-to-b from-blanc-pur to-gris-anthracite/5">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="text-center mb-12 animate-fade-in">
+          <h2 className="text-3xl md:text-4xl font-logo-titres font-bold text-gris-anthracite mb-4">
+            Nos Services d'Import
+          </h2>
+          <p className="text-lg text-gris-anthracite/70 max-w-2xl mx-auto">
+            Découvrez notre gamme complète de services pour faciliter vos importations depuis la Chine
+          </p>
+        </div>
+        
+        <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
           {services.map((service, index) => (
-            <ServiceItemCard
+            <div
               key={index}
-              icon={service.icon}
-              title={service.title}
-              description={service.description}
-              ctaLink={service.ctaLink}
-              ctaText={service.ctaText}
-            />
+              className="animate-fade-in-up"
+              style={{ animationDelay: `${index * 0.2}s` }}
+            >
+              <ServiceItemCard
+                icon={service.icon}
+                title={service.title}
+                description={service.description}
+                ctaLink={service.ctaLink}
+                ctaText={service.ctaText}
+              />
+            </div>
           ))}
         </div>
       </div>

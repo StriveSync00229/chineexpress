@@ -87,6 +87,42 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-paragraphes;
+  }
+  
+  /* Styles automatiques pour les éléments HTML selon votre charte */
+  h1, h2 {
+    @apply font-logo-titres font-bold text-gris-anthracite;
+  }
+  
+  h3, h4, h5, h6 {
+    @apply font-logo-titres font-semibold text-gris-anthracite;
+  }
+  
+  nav, nav a {
+    @apply font-sous-titres text-blanc-pur;
+  }
+  
+  p, div, span, li {
+    @apply font-paragraphes text-gris-anthracite;
+  }
+  
+  button, input, textarea, select {
+    @apply font-boutons;
+  }
+  
+  /* Styles spécifiques pour les éléments de navigation */
+  nav a {
+    @apply font-medium hover:text-dore transition-colors;
+  }
+  
+  /* Boutons avec la couleur rouge profond */
+  button[class*="bg-rouge-profond"] {
+    @apply bg-rouge-profond text-blanc-pur hover:bg-rouge-profond/90;
+  }
+  
+  /* Liens avec accent rouge */
+  a[class*="text-rouge-profond"] {
+    @apply text-rouge-profond hover:text-rouge-profond/80 transition-colors;
   }
 }

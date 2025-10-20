@@ -5,7 +5,7 @@ import { Package, Plane } from 'lucide-react'
 
 export default function HeroSection() {
   return (
-    <section className="relative bg-bleu-nuit text-blanc min-h-[calc(100vh-80px)] flex items-center justify-center py-20 overflow-hidden">
+    <section className="relative bg-bleu-nuit text-white min-h-[calc(100vh-80px)] flex items-center justify-center py-20 overflow-hidden">
       <Image
         src="https://source.unsplash.com/1920x1080/?abstract,global,network,logistics"
         alt="Arrière-plan abstrait logistique"
@@ -21,10 +21,10 @@ export default function HeroSection() {
             <Package size={32} className="text-dore" />
             <Plane size={32} className="text-dore" />
           </div>
-          <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+          <h1 className="font-serif text-white text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
             Importez de Chine sans stress :<br /> nous nous occupons de tout pour vous
           </h1>
-          <p className="text-lg md:text-xl text-blanc/80 mb-10">
+          <p className="text-lg text-white md:text-xl text-white/80 mb-10">
             ChineExpresse : Votre partenaire expert en importation et logistique
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

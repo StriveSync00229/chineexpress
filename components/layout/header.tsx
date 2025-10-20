@@ -15,7 +15,7 @@ export default function Header() {
   ]
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-bleu-nuit/95 backdrop-blur-sm shadow-md">
+    <header className="sticky top-0 z-50 w-full text-white bg-bleu-nuit/95 backdrop-blur-sm shadow-md">
       <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6">
         <Logo text="ChineExpresse" />
         <NavigationLinks />
@@ -30,8 +30,8 @@ export default function Header() {
                 <span className="sr-only">Ouvrir le menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="bg-bleu-nuit text-blanc border-l-dore">
-              <nav className="grid gap-6 text-lg font-medium mt-8">
+            <SheetContent side="right" className="bg-bleu-nuit text-white border-l-dore">
+              <nav className="grid gap-6 text-white text-lg font-medium mt-8">
                 {navItems.map((item) => (
                   <Link key={item.href} href={item.href} className="hover:text-dore transition-colors">
                     {item.label}

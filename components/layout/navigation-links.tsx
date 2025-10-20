@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils"
 const navItems = [
   { href: "/", label: "Accueil" },
   { href: "/a-propos", label: "À propos" },
-  { href: "/mes-services", label: "Nos Services",
+  { href: "/mes-services", label: "Nos Services" },
   { href: "/formation-alibaba", label: "Formation Alibaba" },
   { href: "/contact", label: "Contact" },
 ]

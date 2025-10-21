@@ -18,12 +18,11 @@ export default function Header() {
     { href: "/formation-alibaba", label: "Formation Alibaba" },
     { href: "/contact", label: "Contact" },
   ]
-
   return (
     <>
       <header className="sticky top-0 z-50 w-full text-white bg-bleu-nuit/95 backdrop-blur-sm shadow-md">
         <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6">
-          <Logo text="ChineExpresse" />
+          <Logo />
           <NavigationLinks />
           <div className="flex items-center gap-4">
             <Button 

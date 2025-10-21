@@ -1,0 +1,58 @@
+import { NextRequest, NextResponse } from 'next/server'
+import { createClient } from '@supabase/supabase-js'
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
+
+const supabase = createClient(supabaseUrl, supabaseServiceKey)
+
+export async function POST(request: NextRequest) {
+  try {
+    const { email, password } = await request.json()
+
+    if (!email || !password) {
+      return NextResponse.json(
+        { error: 'Email et mot de passe requis' },
+        { status: 400 }
+      )
+    }
+
+    // Authentification avec Supabase (côté serveur uniquement)
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password
+    })
+
+    if (error) {
+      return NextResponse.json(
+        { error: 'Email ou mot de passe incorrect' },
+        { status: 401 }
+      )
+    }
+
+    // Créer la réponse avec le cookie de session
+    const response = NextResponse.json({
+      message: 'Connexion réussie',
+      user: data.user
+    })
+
+    // Définir le cookie de session
+    if (data.session?.access_token) {
+      response.cookies.set('sb-access-token', data.session.access_token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: 60 * 60 * 24 * 7 // 7 jours
+      })
+    }
+
+    return response
+
+  } catch (error) {
+    console.error('Erreur lors de l\'authentification:', error)
+    return NextResponse.json(
+      { error: 'Erreur interne du serveur' },
+      { status: 500 }
+    )
+  }
+}

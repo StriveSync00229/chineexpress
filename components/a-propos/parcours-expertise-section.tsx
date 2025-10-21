@@ -29,12 +29,22 @@ export default function ParcoursExpertiseSection() {
         </h2>
         <div className="grid md:grid-cols-3 gap-8">
           {expertiseItems.map((item, index) => (
-            <div key={index} className="p-6 bg-blanc rounded-lg shadow-md hover:shadow-lg transition-shadow">
+            <div
+              key={index}
+              className="group p-6 bg-blanc rounded-lg shadow-md hover:shadow-2xl hover:-translate-y-3 transition-all duration-500 ease-out animate-fade-in-up border border-gray-100 hover:border-dore/30"
+              style={{ animationDelay: `${index * 0.3}s` }}
+            >
               <div className="flex items-center mb-4">
-                {item.icon}
-                <h3 className="ml-3 text-xl font-serif font-semibold text-bleu-nuit">{item.title}</h3>
+                <div className="p-3 bg-dore/10 rounded-full mr-4 group-hover:bg-dore/20 transition-all duration-300 transform group-hover:scale-110">
+                  {item.icon}
+                </div>
+                <h3 className="text-xl font-serif font-semibold text-bleu-nuit group-hover:text-dore transition-colors duration-300">
+                  {item.title}
+                </h3>
               </div>
-              <p className="text-noir-profond/80">{item.description.replace(/ChineExpress/g, "ChineExpresse")}</p>
+              <p className="text-noir-profond/80 group-hover:text-noir-profond transition-colors duration-300 leading-relaxed">
+                {item.description.replace(/ChineExpress/g, "ChineExpresse")}
+              </p>
             </div>
           ))}
         </div>

@@ -1,11 +1,11 @@
-export default function ClausesNonResponsabilitePage() {
+export default function ConditionsGeneralesVentePage() {
   return (
-    <div className="bg-blanc">
-      <header className="py-16 md:py-24 bg-bleu-nuit text-blanc text-center">
+    <div className="bg-white">
+      <header className="py-16 md:py-24 bg-bleu-nuit text-white text-center">
         <div className="container mx-auto px-4 md:px-6">
-          <h1 className="text-4xl md:text-5xl font-serif font-bold">Clauses de Non-Responsabilité</h1>
-          <p className="mt-4 text-lg md:text-xl max-w-2xl mx-auto text-blanc/80">
-            Limitations de responsabilité et exclusions de garantie
+          <h1 className="text-4xl text-dore md:text-5xl font-serif font-bold">Clause de non-responsabilité</h1>
+          <p className="mt-4 text-lg md:text-xl max-w-2xl mx-auto text-white/80">
+            Limitations de responsabilité et exclusions de garantie de Chineexpresse
           </p>
         </div>
       </header>
@@ -13,169 +13,79 @@ export default function ClausesNonResponsabilitePage() {
       <div className="container mx-auto px-4 md:px-6 py-16 md:py-24">
         <div className="max-w-4xl mx-auto prose prose-lg">
           <section className="mb-8">
-            <h2 className="text-2xl font-serif font-bold text-bleu-nuit mb-4">
-              1. Limitation générale de responsabilité
-            </h2>
+            <h2 className="text-2xl font-serif font-bold text-bleu-nuit mb-4">1. Limitation générale de responsabilité</h2>
             <p className="text-noir-profond/80 mb-4">
-              ChineExpresse fournit ses services d'importation et de logistique avec le plus grand soin. Cependant, notre
-              responsabilité est limitée dans les conditions définies ci-après.
-            </p>
-            <p className="text-noir-profond/80 mb-4">
-              En aucun cas, ChineExpresse ne pourra être tenue responsable de dommages indirects, consécutifs,
-              accessoires, spéciaux ou punitifs, y compris mais sans s'y limiter :
+              Chineexpresse agit en tant qu'intermédiaire logistique et prestataire de services d'affrètement pour le compte du Client. En aucun cas, Chineexpresse ne pourra être tenue responsable :
             </p>
             <ul className="list-disc pl-6 text-noir-profond/80 mb-4">
-              <li>Perte de profits ou de revenus</li>
-              <li>Perte d'opportunités commerciales</li>
-              <li>Perte de données ou d'informations</li>
-              <li>Interruption d'activité</li>
-              <li>Dommages à la réputation</li>
+              <li>Des dommages directs ou indirects, pertes de profits, interruptions d'activité ou préjudices immatériels résultant de l'utilisation de ses services.</li>
+              <li>Des contenus, produits ou services fournis par des tiers (transporteurs, fournisseurs, marketplaces).</li>
+              <li>Des erreurs techniques, pannes ou interruptions de service imputables à des facteurs externes (hébergeurs, opérateurs télécom, fournisseurs d'accès Internet, etc.).</li>
             </ul>
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-serif font-bold text-bleu-nuit mb-4">2. Responsabilité liée au transport</h2>
-
-            <h3 className="text-xl font-serif font-semibold text-bleu-nuit mb-3">2.1 Transport international</h3>
+            <h2 className="text-2xl font-serif font-bold text-bleu-nuit mb-4">2. Responsabilité logistique</h2>
             <p className="text-noir-profond/80 mb-4">
-              Pour le transport international, notre responsabilité est limitée par les conventions internationales
-              applicables :
-            </p>
-            <ul className="list-disc pl-6 text-noir-profond/80 mb-4">
-              <li>
-                <strong>Transport maritime :</strong> Convention de Hambourg (limite : 835 DTS par colis)
-              </li>
-              <li>
-                <strong>Transport aérien :</strong> Convention de Montréal (limite : 22 DTS par kg)
-              </li>
-              <li>
-                <strong>Transport routier :</strong> Convention CMR (limite : 8,33 DTS par kg)
-              </li>
-            </ul>
-
-            <h3 className="text-xl font-serif font-semibold text-bleu-nuit mb-3">
-              2.2 Exclusions de responsabilité transport
-            </h3>
-            <p className="text-noir-profond/80 mb-4">
-              ChineExpresse ne peut être tenue responsable des dommages causés par :
-            </p>
-            <ul className="list-disc pl-6 text-noir-profond/80 mb-4">
-              <li>Conditions météorologiques exceptionnelles</li>
-              <li>Catastrophes naturelles (force majeure)</li>
-              <li>Actes de guerre, terrorisme ou piraterie</li>
-              <li>Grèves et mouvements sociaux</li>
-              <li>Défaillance des systèmes informatiques</li>
-              <li>Emballage insuffisant ou inadéquat par le client</li>
-            </ul>
-          </section>
-
-          <section className="mb-8">
-            <h2 className="text-2xl font-serif font-bold text-bleu-nuit mb-4">3. Responsabilité douanière</h2>
-            <p className="text-noir-profond/80 mb-4">ChineExpresse n'assume aucune responsabilité concernant :</p>
-            <ul className="list-disc pl-6 text-noir-profond/80 mb-4">
-              <li>Les modifications de réglementation douanière</li>
-              <li>Les retards dus aux contrôles douaniers</li>
-              <li>La saisie de marchandises par les autorités</li>
-              <li>Les taxes et droits de douane supplémentaires</li>
-              <li>Le refus d'importation par les autorités compétentes</li>
-            </ul>
-            <p className="text-noir-profond/80">
-              Il appartient au client de s'assurer de la conformité de ses marchandises avec la réglementation du pays
-              de destination.
-            </p>
-          </section>
-
-          <section className="mb-8">
-            <h2 className="text-2xl font-serif font-bold text-bleu-nuit mb-4">4. Responsabilité des fournisseurs</h2>
-            <p className="text-noir-profond/80 mb-4">
-              ChineExpresse agit en tant qu'intermédiaire dans la relation entre le client et les fournisseurs. Nous ne
-              pouvons être tenus responsables de :
-            </p>
-            <ul className="list-disc pl-6 text-noir-profond/80 mb-4">
-              <li>La qualité des produits fournis par les fabricants</li>
-              <li>Le respect des délais de production par les fournisseurs</li>
-              <li>La conformité des produits aux normes locales</li>
-              <li>Les défauts de fabrication ou de conception</li>
-              <li>La disponibilité des produits</li>
-            </ul>
-          </section>
-
-          <section className="mb-8">
-            <h2 className="text-2xl font-serif font-bold text-bleu-nuit mb-4">5. Limitation financière</h2>
-            <p className="text-noir-profond/80 mb-4">
-              En toutes circonstances, la responsabilité totale de ChineExpresse, quelle qu'en soit la cause, ne pourra
-              excéder le montant des prestations facturées au client pour la commande concernée.
+              Une fois les colis remis au transporteur désigné, la responsabilité de Chineexpresse est limitée à l'assistance dans les réclamations ; les litiges relatifs aux retards, pertes ou dommages relèvent exclusivement des conditions contractualisées avec le transporteur.
             </p>
             <p className="text-noir-profond/80">
-              Cette limitation s'applique même si ChineExpresse a été informée de la possibilité de tels dommages.
+              En cas de force majeure (catastrophes naturelles, conflits armés, grèves, pandémies, décisions gouvernementales), Chineexpresse est exonérée de toute obligation de respect des délais estimés.
             </p>
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-serif font-bold text-bleu-nuit mb-4">6. Assurance recommandée</h2>
+            <h2 className="text-2xl font-serif font-bold text-bleu-nuit mb-4">3. Produits et fournisseurs tiers</h2>
             <p className="text-noir-profond/80 mb-4">
-              Compte tenu des limitations de responsabilité mentionnées ci-dessus, ChineExpresse recommande fortement à
-              ses clients de souscrire :
+              Chineexpresse ne garantit pas la qualité, la conformité réglementaire ou la sécurité des marchandises expédiées par le Client, ni celles achetées pour son compte auprès de fournisseurs externes.
             </p>
-            <ul className="list-disc pl-6 text-noir-profond/80 mb-4">
-              <li>Une assurance transport pour la valeur totale des marchandises</li>
-              <li>Une assurance responsabilité civile professionnelle</li>
-              <li>Une assurance crédit pour se protéger contre les défaillances de fournisseurs</li>
-            </ul>
+            <p className="text-noir-profond/80">
+              Toute réclamation relative à un défaut de fabrication, une erreur de description ou un vice caché doit être adressée directement au fournisseur ou au fabricant concerné.
+            </p>
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-serif font-bold text-bleu-nuit mb-4">7. Obligations du client</h2>
-            <p className="text-noir-profond/80 mb-4">Pour bénéficier de nos services, le client s'engage à :</p>
-            <ul className="list-disc pl-6 text-noir-profond/80 mb-4">
-              <li>Fournir des informations exactes et complètes</li>
-              <li>Respecter les réglementations en vigueur</li>
-              <li>Signaler immédiatement tout problème ou anomalie</li>
-              <li>Collaborer activement aux démarches nécessaires</li>
-              <li>Payer les prestations dans les délais convenus</li>
-            </ul>
-          </section>
-
-          <section className="mb-8">
-            <h2 className="text-2xl font-serif font-bold text-bleu-nuit mb-4">8. Cas de force majeure</h2>
+            <h2 className="text-2xl font-serif font-bold text-bleu-nuit mb-4">4. Transactions financières</h2>
             <p className="text-noir-profond/80 mb-4">
-              ChineExpresse ne saurait être tenue responsable de l'inexécution ou des retards d'exécution de ses
-              obligations dus à des cas de force majeure, notamment :
+              Chineexpresse n'est pas responsable des retards ou erreurs de paiement liés aux institutions financières (banques, Mobile Money, plateformes de paiement), ni des erreurs techniques indépendantes de sa volonté.
             </p>
-            <ul className="list-disc pl-6 text-noir-profond/80 mb-4">
-              <li>Catastrophes naturelles (séismes, inondations, typhons)</li>
-              <li>Conflits armés et actes de terrorisme</li>
-              <li>Épidémies et pandémies</li>
-              <li>Décisions gouvernementales restrictives</li>
-              <li>Grèves générales et blocages</li>
-              <li>Pannes généralisées des systèmes de communication</li>
-            </ul>
-          </section>
-
-          <section className="mb-8">
-            <h2 className="text-2xl font-serif font-bold text-bleu-nuit mb-4">9. Acceptation des clauses</h2>
-            <p className="text-noir-profond/80 mb-4">
-              L'utilisation de nos services implique l'acceptation pleine et entière des présentes clauses de
-              non-responsabilité. Si vous n'acceptez pas ces conditions, veuillez ne pas utiliser nos services.
+            <p className="text-noir-profond/80">
+              Les litiges relatifs aux fluctuations de taux de change, frais bancaires ou réglementations monétaires incombent exclusivement au Client.
             </p>
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-serif font-bold text-bleu-nuit mb-4">Contact</h2>
+            <h2 className="text-2xl font-serif font-bold text-bleu-nuit mb-4">5. Données et sécurité</h2>
             <p className="text-noir-profond/80 mb-4">
-              Pour toute question concernant ces clauses de non-responsabilité :
+              Chineexpresse met en œuvre des mesures de sécurité conformes aux bonnes pratiques de l'industrie pour protéger les données clients, mais ne peut garantir une protection absolue contre les cyberattaques, pertes de données ou accès non autorisés.
             </p>
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <p className="text-noir-profond/80 mb-1">
-                <strong>Email :</strong> support@Chineexpresse.com / contact@Chineexpresse.com
-              </p>
-              <p className="text-noir-profond/80 mb-1">
-                <strong>Téléphone :</strong> +229 01 55 44 82 58
-              </p>
-              <p className="text-noir-profond/80">
-                <strong>Adresse :</strong> 广州市白云区鹤龙街尹边村8262联兴路20号SEA仓非快国际
-              </p>
-            </div>
+            <p className="text-noir-profond/80">
+              Le Client est seul responsable de la sauvegarde de ses données et de la confidentialité de ses identifiants d'accès.
+            </p>
+          </section>
+
+          <section className="mb-8">
+            <h2 className="text-2xl font-serif font-bold text-bleu-nuit mb-4">6. Conformité légale et douanière</h2>
+            <p className="text-noir-profond/80 mb-4">
+              Le Client assume l'entière responsabilité du respect des réglementations douanières, fiscales et commerciales applicables au Bénin ou dans le pays de destination.
+            </p>
+            <p className="text-noir-profond/80">
+              Tous droits de douane, taxes à l'importation, frais administratifs ou amendes résultant d'un non-respect de ces réglementations sont à la charge du Client.
+            </p>
+          </section>
+
+          <section className="mb-8">
+            <h2 className="text-2xl font-serif font-bold text-bleu-nuit mb-4">7. Absence de garanties</h2>
+            <p className="text-noir-profond/80">
+              Les services de Chineexpresse sont fournis « en l'état » et « selon disponibilité », sans garantie expresse ou implicite quant à leur adéquation à un usage particulier, leur continuité ou leur qualité marchande.
+            </p>
+          </section>
+
+          <section className="mb-8">
+            <h2 className="text-2xl font-serif font-bold text-bleu-nuit mb-4">8. Plafonnement de responsabilité</h2>
+            <p className="text-noir-profond/80">
+              En cas de responsabilité prouvée de Chineexpresse, l'indemnisation due au Client ne pourra excéder le montant total des frais facturés par Chineexpresse pour la transaction concernée, hors dommages-intérêts éventuellement accordés par une juridiction compétente.
+            </p>
           </section>
         </div>
       </div>

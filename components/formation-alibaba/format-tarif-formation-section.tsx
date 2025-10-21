@@ -41,11 +41,11 @@ export default function FormatTarifFormationSection() {
                 </div>
               </div>
             </div>
-            <div className="bg-bleu-nuit text-blanc p-8 rounded-lg shadow-xl text-center">
+            <div className="bg-bleu-nuit text-white p-8 rounded-lg shadow-xl text-center">
               <h3 className="text-2xl font-serif font-bold text-dore mb-2">Accès Complet à la Formation</h3>
-              <p className="text-5xl font-bold mb-1">{formationPrice}€</p>
-              <p className="text-sm text-blanc/70 mb-6">(Paiement unique)</p>
-              <p className="text-blanc/90 mb-6">
+              <p className="text-5xl text-dore font-extrabold mb-1">{formationPrice}€</p>
+              <p className="text-sm text-white/70 mb-6">(Paiement unique)</p>
+              <p className="text-white/90 mb-6">
                 Offre de lancement : <span className="font-bold text-dore">-20%</span> avec le code{" "}
                 <span className="font-bold text-dore">{promoCode}</span> (jusqu'au JJ/MM/AAAA)
               </p>

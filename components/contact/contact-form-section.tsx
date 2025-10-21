@@ -11,12 +11,12 @@ import { useEffect } from "react"
 import { useToast } from "@/hooks/use-toast"
 
 const formSchema = z.object({
-  name: z.string().min(2, "Le nom doit contenir au moins 2 caractères."),
-  countryCity: z.string().min(2, "Veuillez indiquer votre pays et ville."),
-  address: z.string().optional(),
-  need: z.string().min(10, "Veuillez décrire votre besoin (au moins 10 caractères)."),
-  email: z.string().email("L'adresse e-mail n'est pas valide."),
-  phone: z.string().optional(),
+  name: z.string().min(1, "Le nom est obligatoire.").min(2, "Le nom doit contenir au moins 2 caractères."),
+  countryCity: z.string().min(1, "Le pays et la ville sont obligatoires.").min(2, "Veuillez indiquer votre pays et ville."),
+  address: z.string().min(1, "L'adresse est obligatoire.").min(5, "L'adresse doit contenir au moins 5 caractères."),
+  need: z.string().min(1, "La description du besoin est obligatoire.").min(10, "Veuillez décrire votre besoin (au moins 10 caractères)."),
+  email: z.string().min(1, "L'email est obligatoire.").email("L'adresse e-mail n'est pas valide."),
+  phone: z.string().min(1, "Le téléphone est obligatoire.").min(10, "Le numéro de téléphone doit contenir au moins 10 caractères."),
   service: z.string().optional(), // For pre-filling from query param
 })
 
@@ -143,7 +143,7 @@ export default function ContactFormSection() {
         </div>
         <div>
           <label htmlFor="address" className="block text-sm font-medium text-noir-profond/80 mb-1">
-            Adresse (Optionnel)
+            Adresse *
           </label>
           <Input
             id="address"
@@ -151,10 +151,11 @@ export default function ContactFormSection() {
             placeholder="Votre adresse postale"
             className="bg-blanc border-gray-300 focus:border-dore focus:ring-dore"
           />
+          {errors.address && <p className="text-red-500 text-sm mt-1">{errors.address.message}</p>}
         </div>
         <div>
           <label htmlFor="phone" className="block text-sm font-medium text-noir-profond/80 mb-1">
-            Téléphone (Optionnel)
+            Téléphone *
           </label>
           <Input
             id="phone"
@@ -162,6 +163,7 @@ export default function ContactFormSection() {
             placeholder="Votre numéro de téléphone"
             className="bg-blanc border-gray-300 focus:border-dore focus:ring-dore"
           />
+          {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>}
         </div>
         <div>
           <label htmlFor="need" className="block text-sm font-medium text-noir-profond/80 mb-1">

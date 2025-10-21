@@ -1,5 +1,7 @@
 import Link from "next/link"
 import Logo from "@/components/layout/logo"
+import { Mail, Phone, MapPin } from "lucide-react"
+
 import { Facebook, Linkedin, Instagram, TwitterIcon as TikTok } from 'lucide-react' // Added TikTok import
 
 export default function Footer() {
@@ -32,7 +34,7 @@ export default function Footer() {
             <h3 className="text-dore font-semibold mb-4">Légal</h3>
             <nav className="flex flex-col gap-2">
               <Link href="/conditions-generales-vente" className="text-sm hover:text-dore transition-colors">
-                CGV
+                CGA
               </Link>
               <Link href="/conditions-utilisation-services" className="text-sm hover:text-dore transition-colors">
                 Conditions d'utilisation
@@ -54,15 +56,17 @@ export default function Footer() {
           <div>
             <h3 className="font-semibold text-dore mb-4">Contact</h3>
             <div className="text-sm text-white space-y-2">
-              <p className="text-white">contact@chineexpresse.com</p>
-              <p className="text-white">+229 01 55 44 82 58</p>
+              <p className="flex text-white"><MapPin size={16} className="text-dore mr-3 mt-1 flex-shrink-0" />
+              contact@chineexpresse.com</p>
+              <p className="flex text-white"><Phone size={16} className="text-dore mr-3 mt-1 flex-shrink-0" />
+              +229 01 55 44 82 58</p>
             </div>
             <div className="flex gap-4 mt-4">
-              <Link href="#" aria-label="Facebook" className="text-white/70 hover:text-dore">
+              <Link href="#" aria-label="Facebook" className="text-white hover:text-dore">
                 <Facebook size={20} />
               </Link>
             
-              <Link href="#" aria-label="Instagram" className="text-white/70 hover:text-dore">
+              <Link href="#" aria-label="Instagram" className="text-white hover:text-dore">
                 <Instagram size={20} />
               </Link>
             </div>

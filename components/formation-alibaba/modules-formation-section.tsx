@@ -33,12 +33,26 @@ export default function ModulesFormationSection() {
         </h2>
         <div className="grid md:grid-cols-2 gap-8">
           {modules.map((module, index) => (
-            <div key={index} className="p-6 bg-blanc rounded-lg shadow-md hover:shadow-lg transition-shadow">
+            <div
+              key={index}
+              className="group p-6 bg-blanc rounded-lg shadow-md hover:shadow-2xl hover:-translate-y-3 transition-all duration-500 ease-out animate-fade-in-up border border-gray-100 hover:border-dore/40"
+              style={{ animationDelay: `${index * 0.3}s` }}
+            >
               <div className="flex items-center mb-4">
-                {module.icon}
-                <h3 className="ml-3 text-xl font-serif font-semibold text-bleu-nuit">{module.title}</h3>
+                <div className="p-3 bg-dore/10 rounded-full mr-4 group-hover:bg-dore/20 transition-all duration-300 transform group-hover:scale-110 group-hover:rotate-3">
+                  {module.icon}
+                </div>
+                <h3 className="text-xl font-serif font-semibold text-bleu-nuit group-hover:text-dore transition-colors duration-300">
+                  {module.title}
+                </h3>
               </div>
-              <p className="text-noir-profond/80">{module.description}</p>
+              <p className="text-noir-profond/80 group-hover:text-noir-profond transition-colors duration-300 leading-relaxed">
+                {module.description}
+              </p>
+
+              {/* Particules flottantes avec doré */}
+              <div className="absolute top-4 right-4 w-2 h-2 bg-dore/50 rounded-full opacity-0 group-hover:opacity-100 group-hover:animate-bounce transition-opacity duration-300 shadow-sm" style={{ animationDelay: '0.1s' }} />
+              <div className="absolute top-8 right-8 w-1.5 h-1.5 bg-yellow-400/60 rounded-full opacity-0 group-hover:opacity-100 group-hover:animate-bounce transition-opacity duration-300 shadow-sm" style={{ animationDelay: '0.3s' }} />
             </div>
           ))}
         </div>

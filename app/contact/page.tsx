@@ -5,11 +5,11 @@ import { Suspense } from "react" // Importer Suspense
 
 export default function ContactPage() {
   return (
-    <div className="bg-blanc">
-      <header className="py-16 md:py-24 bg-bleu-nuit text-blanc text-center">
+    <div className="bg-white">
+      <header className="py-16 md:py-24 bg-bleu-nuit text-white text-center">
         <div className="container mx-auto px-4 md:px-6">
-          <h1 className="text-4xl md:text-5xl font-serif font-bold">Contactez-Nous</h1>
-          <p className="mt-4 text-lg md:text-xl max-w-2xl mx-auto text-blanc/80">
+          <h1 className="text-dore text-4xl md:text-5xl font-serif font-bold">Contactez-Nous</h1>
+          <p className="mt-4 text-lg md:text-xl max-w-2xl mx-auto text-white">
             Nous sommes à votre écoute pour tous vos besoins d'importation ou questions sur nos services et formations.
           </p>
         </div>

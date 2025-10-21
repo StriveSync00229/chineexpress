@@ -10,8 +10,8 @@ export default function CoordonneesSection() {
             <Mail size={24} className="text-dore mr-3 mt-1 flex-shrink-0" />
             <div>
               <h3 className="font-semibold text-bleu-nuit">Email</h3>
-              <a href="mailto:contact@chineexpress.com" className="hover:text-dore">
-                contact@chineexpress.com
+              <a href="mailto:contact@chineexpresse.com" className="hover:text-dore">
+              contact@chineexpresse.com
               </a>
             </div>
           </div>
@@ -19,17 +19,18 @@ export default function CoordonneesSection() {
             <Phone size={24} className="text-dore mr-3 mt-1 flex-shrink-0" />
             <div>
               <h3 className="font-semibold text-bleu-nuit">Téléphone</h3>
-              <a href="tel:+33123456789" className="hover:text-dore">
-                +33 1 23 45 67 89
+              <a href="tel:+229 01 55 44 82 58" className="hover:text-dore">
+              +229 01 55 44 82 58
               </a>{" "}
-              {/* Replace with actual number */}
             </div>
           </div>
           <div className="flex items-start">
             <MapPin size={24} className="text-dore mr-3 mt-1 flex-shrink-0" />
             <div>
-              <h3 className="font-semibold text-bleu-nuit">Bureau (sur RDV)</h3>
-              <p>123 Rue de l'Import, 75000 Paris, France</p> {/* Replace with actual address if relevant */}
+              <h3 className="font-semibold text-bleu-nuit">Localisation</h3>
+              <p>广州市白云区鹤龙街尹边村8262联兴路20号SEA仓非快国际
+              <br />
+              Abomey Calavi, République du Bénin</p> 
             </div>
           </div>
         </div>

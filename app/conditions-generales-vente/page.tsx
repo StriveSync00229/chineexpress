@@ -1,11 +1,11 @@
 export default function ConditionsGeneralesVentePage() {
   return (
-    <div className="bg-blanc">
-      <header className="py-16 md:py-24 bg-bleu-nuit text-blanc text-center">
+    <div className="bg-white">
+      <header className="py-16 md:py-24 bg-bleu-nuit text-white text-center">
         <div className="container mx-auto px-4 md:px-6">
-          <h1 className="text-4xl md:text-5xl font-serif font-bold">Conditions Générales de Vente</h1>
-          <p className="mt-4 text-lg md:text-xl max-w-2xl mx-auto text-blanc/80">
-            Conditions applicables à tous nos services d'importation
+          <h1 className="text-4xl text-dore md:text-5xl font-serif font-bold">Conditions Générales d'Achat</h1>
+          <p className="mt-4 text-lg md:text-xl max-w-2xl mx-auto text-white/80">
+            Conditions applicables à l'utilisation des services d'achat proposés par ChineExpresse
           </p>
         </div>
       </header>
@@ -13,133 +13,155 @@ export default function ConditionsGeneralesVentePage() {
       <div className="container mx-auto px-4 md:px-6 py-16 md:py-24">
         <div className="max-w-4xl mx-auto prose prose-lg">
           <section className="mb-8">
-            <h2 className="text-2xl font-serif font-bold text-bleu-nuit mb-4">
-              Article 1 - Objet et champ d'application
-            </h2>
             <p className="text-noir-profond/80 mb-4">
-              Les présentes Conditions Générales de Vente (CGV) régissent les relations contractuelles entre
-              ChineExpresse, société représentée par Madame Mélissa, située à l'adresse
-              广州市白云区鹤龙街尹边村8262联兴路20号SEA仓非快国际, Chine, et ses clients dans le cadre de la vente de
-              services d'importation depuis la Chine.
+              Les présentes Conditions Générales d'Achat (ci-après « CGA ») s'appliquent à l'utilisation des services d'achat proposés par Chineexpresse, une entreprise canadienne basée au Bénin.
             </p>
             <p className="text-noir-profond/80">
-              Toute commande implique l'acceptation pleine et entière des présentes CGV par le client.
+              En accédant et en utilisant nos services d'achat, vous acceptez les présentes CGA.
             </p>
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-serif font-bold text-bleu-nuit mb-4">Article 2 - Services proposés</h2>
-            <p className="text-noir-profond/80 mb-4">ChineExpresse propose les services suivants :</p>
-            <ul className="list-disc pl-6 text-noir-profond/80 mb-4">
-              <li>Sourcing de produits et identification de fournisseurs</li>
-              <li>Négociation commerciale et suivi de commandes</li>
-              <li>Services logistiques et livraison internationale</li>
-              <li>Formation pratique à l'utilisation d'Alibaba</li>
-              <li>Accompagnement complet dans les démarches d'importation</li>
-            </ul>
-          </section>
-
-          <section className="mb-8">
-            <h2 className="text-2xl font-serif font-bold text-bleu-nuit mb-4">Article 3 - Commandes et devis</h2>
+            <h2 className="text-2xl font-serif font-bold text-bleu-nuit mb-4">1. Définitions</h2>
             <p className="text-noir-profond/80 mb-4">
-              Toute commande doit faire l'objet d'un devis préalable établi par ChineExpresse. Le devis est valable 30
-              jours à compter de sa date d'émission. La commande n'est définitive qu'après acceptation écrite du devis
-              par le client et versement de l'acompte demandé.
+              <strong>Service :</strong> Services fournis par Chineexpresse.
+            </p>
+            <p className="text-noir-profond/80 mb-4">
+              <strong>Utilisateur :</strong> Toute personne utilisant les services.
+            </p>
+            <p className="text-noir-profond/80 mb-4">
+              <strong>Client :</strong> Acheteur via les services.
+            </p>
+            <p className="text-noir-profond/80 mb-4">
+              <strong>Fournisseur :</strong> Partenaires commerciaux.
             </p>
             <p className="text-noir-profond/80">
-              ChineExpresse se réserve le droit de refuser toute commande qui ne respecterait pas les réglementations en
-              vigueur ou qui présenterait un risque particulier.
+              <strong>Plateforme :</strong> Ensemble des outils numériques d'accès aux services.
             </p>
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-serif font-bold text-bleu-nuit mb-4">
-              Article 4 - Prix et modalités de paiement
-            </h2>
-            <p className="text-noir-profond/80 mb-4">
-              Les prix sont exprimés en euros, hors taxes et hors frais de port. Ils sont fermes et définitifs, sauf
-              modification exceptionnelle des conditions économiques (taux de change, coûts de transport, etc.).
-            </p>
-            <p className="text-noir-profond/80 mb-4">Modalités de paiement :</p>
-            <ul className="list-disc pl-6 text-noir-profond/80 mb-4">
-              <li>Acompte de 50% à la commande</li>
-              <li>Solde avant expédition des marchandises</li>
-              <li>Paiement par virement bancaire ou carte bancaire</li>
-              <li>Délai de paiement : 30 jours maximum</li>
-            </ul>
+            <h2 className="text-2xl font-serif font-bold text-bleu-nuit mb-4">2. Description des services</h2>
+            <p className="text-noir-profond/80 mb-4">Achat via marketplaces internationales.</p>
+            <p className="text-noir-profond/80 mb-4">Paiement en Mobile Money, virement, ou espèces.</p>
+            <p className="text-noir-profond/80">Formation et accompagnement.</p>
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-serif font-bold text-bleu-nuit mb-4">Article 5 - Délais de livraison</h2>
+            <h2 className="text-2xl font-serif font-bold text-bleu-nuit mb-4">3. Inscription et création de compte</h2>
+            <p className="text-noir-profond/80">
+              L'Utilisateur doit fournir des informations exactes, à jour, et garder ses identifiants confidentiels.
+            </p>
+          </section>
+
+          <section className="mb-8">
+            <h2 className="text-2xl font-serif font-bold text-bleu-nuit mb-4">4. Commandes et livraisons</h2>
             <p className="text-noir-profond/80 mb-4">
-              Les délais de livraison sont donnés à titre indicatif et peuvent varier selon la nature des produits, la
-              disponibilité des fournisseurs et les conditions de transport. ChineExpresse s'engage à informer le client
-              de tout retard significatif.
+              Processus clair et vérification produit.
+            </p>
+            <p className="text-noir-profond/80 mb-4">
+              Substitution possible avec accord du client.
+            </p>
+            <p className="text-noir-profond/80 mb-4">
+              Annulation possible en cas de prix incorrect.
+            </p>
+            <p className="text-noir-profond/80 mb-4">
+              Réclamation obligatoire à réception d'un produit non conforme.
             </p>
             <p className="text-noir-profond/80">
-              Les délais courent à compter de la réception de l'acompte et de tous les éléments nécessaires à
-              l'exécution de la commande.
+              Retour : Refusé sauf non-conformité signalée.
             </p>
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-serif font-bold text-bleu-nuit mb-4">
-              Article 6 - Transfert de propriété et des risques
-            </h2>
+            <h2 className="text-2xl font-serif font-bold text-bleu-nuit mb-4">5. Paiements et frais</h2>
             <p className="text-noir-profond/80 mb-4">
-              Le transfert de propriété des marchandises s'effectue lors du paiement intégral du prix. Le transfert des
-              risques s'effectue selon les Incoterms convenus (généralement FOB ou CIF).
+              Mobile Money, virement, cash acceptés.
+            </p>
+            <p className="text-noir-profond/80 mb-4">
+              Frais d'intermédiation possibles.
             </p>
             <p className="text-noir-profond/80">
-              Il appartient au client de vérifier l'état des marchandises à la réception et de formuler toute réserve
-              dans les 48 heures.
+              Modification des frais à tout moment avec notification.
             </p>
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-serif font-bold text-bleu-nuit mb-4">
-              Article 7 - Garanties et responsabilité
-            </h2>
+            <h2 className="text-2xl font-serif font-bold text-bleu-nuit mb-4">6. Responsabilité de l'utilisateur</h2>
             <p className="text-noir-profond/80 mb-4">
-              ChineExpresse garantit la conformité des services fournis aux spécifications convenues. Notre
-              responsabilité est limitée au montant des prestations facturées.
+              Fonds d'origine légale.
+            </p>
+            <p className="text-noir-profond/80 mb-4">
+              Exactitude des informations et bon comportement exigés.
             </p>
             <p className="text-noir-profond/80">
-              ChineExpresse ne peut être tenue responsable des défauts de fabrication des produits, des retards dus aux
-              fournisseurs ou aux autorités douanières, ni des cas de force majeure.
+              Responsabilité des transactions et du processus d'achat.
             </p>
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-serif font-bold text-bleu-nuit mb-4">Article 8 - Résiliation et annulation</h2>
+            <h2 className="text-2xl font-serif font-bold text-bleu-nuit mb-4">7. Protection des données</h2>
             <p className="text-noir-profond/80 mb-4">
-              En cas d'annulation par le client après acceptation du devis, l'acompte versé reste acquis à ChineExpresse
-              à titre de dédommagement, sauf accord contraire.
+              Collecte minimale et sécurité des données.
             </p>
             <p className="text-noir-profond/80">
-              ChineExpresse se réserve le droit de résilier le contrat en cas de non-paiement ou de manquement grave du
-              client à ses obligations.
+              Droits d'accès, rectification, suppression des données.
             </p>
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-serif font-bold text-bleu-nuit mb-4">
-              Article 9 - Droit applicable et juridiction
-            </h2>
+            <h2 className="text-2xl font-serif font-bold text-bleu-nuit mb-4">8. Lutte contre le blanchiment d'argent</h2>
             <p className="text-noir-profond/80 mb-4">
-              Les présentes CGV sont soumises au droit chinois. En cas de litige, les parties s'efforceront de trouver
-              une solution amiable. À défaut, les tribunaux compétents de Guangzhou seront seuls compétents.
+              Respect de la législation en vigueur.
+            </p>
+            <p className="text-noir-profond/80">
+              KYC obligatoire dans certains cas.
             </p>
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-serif font-bold text-bleu-nuit mb-4">Contact</h2>
-            <p className="text-noir-profond/80 mb-2">Pour toute question concernant les présentes CGV :</p>
+            <h2 className="text-2xl font-serif font-bold text-bleu-nuit mb-4">9. Exclusions de responsabilité</h2>
+            <p className="text-noir-profond/80 mb-4">
+              Limite de responsabilité une fois les produits remis au transporteur.
+            </p>
+            <p className="text-noir-profond/80 mb-4">
+              Chineexpresse n'est pas responsable des retards ou erreurs de paiement dus à des tiers.
+            </p>
+            <p className="text-noir-profond/80">
+              Force majeure exonère de toute responsabilité.
+            </p>
+          </section>
+
+          <section className="mb-8">
+            <h2 className="text-2xl font-serif font-bold text-bleu-nuit mb-4">10. Modifications des CGA</h2>
+            <p className="text-noir-profond/80 mb-4">
+              Modifiables à tout moment avec publication sur la plateforme.
+            </p>
+            <p className="text-noir-profond/80">
+              L'utilisateur accepte les nouvelles CGA pour continuer à utiliser les services.
+            </p>
+          </section>
+
+          <section className="mb-8">
+            <h2 className="text-2xl font-serif font-bold text-bleu-nuit mb-4">11. Litiges et résolution</h2>
+            <p className="text-noir-profond/80 mb-4">
+              Droit applicable : République du Bénin.
+            </p>
+            <p className="text-noir-profond/80 mb-4">
+              Compétence des tribunaux béninois.
+            </p>
+            <p className="text-noir-profond/80">
+              Médiation et arbitrage encouragés avant action judiciaire.
+            </p>
+          </section>
+
+          <section className="mb-8">
+            <h2 className="text-2xl font-serif font-bold text-bleu-nuit mb-4">12. Contact</h2>
             <div className="bg-gray-50 p-4 rounded-lg">
-              <p className="text-noir-profond/80 mb-1">
-                <strong>Email :</strong> support@Chineexpresse.com / contact@Chineexpresse.com
+              <p className="text-noir-profond/80 mb-2">
+                <strong>Email :</strong> support@Chineexpresse.com
               </p>
-              <p className="text-noir-profond/80 mb-1">
+              <p className="text-noir-profond/80 mb-2">
                 <strong>Téléphone :</strong> +229 01 55 44 82 58
               </p>
               <p className="text-noir-profond/80">

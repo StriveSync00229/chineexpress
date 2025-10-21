@@ -68,10 +68,6 @@ export default function AdminLayout({
       {/* Sidebar desktop */}
       <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:w-64 lg:block">
         <div className="bg-white shadow-lg h-full">
-          <div className="p-6 border-b">
-            <h1 className="text-xl font-bold text-gray-900">Admin ChineExpresse</h1>
-            <p className="text-sm text-gray-600 mt-1">Panel d'administration</p>
-          </div>
           <nav className="mt-6">
             {navigation.map((item) => {
               const isActive = pathname === item.href

@@ -1,5 +1,7 @@
 "use client"
 
+import { useState } from "react"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -15,8 +17,16 @@ const formSchema = z.object({
   countryCity: z.string().min(2, "Veuillez indiquer votre pays et ville."),
   message: z.string().min(10, "Le message doit contenir au moins 10 caractères."),
 })
+
 type ContactFormData = z.infer<typeof formSchema>
-export default function HomeContactSection() {
+
+interface ServiceQuoteModalProps {
+  isOpen: boolean
+  onClose: () => void
+  serviceTitle: string
+}
+
+export default function ServiceQuoteModal({ isOpen, onClose, serviceTitle }: ServiceQuoteModalProps) {
   const { toast } = useToast()
   const {
     register,
@@ -32,18 +42,23 @@ export default function HomeContactSection() {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          ...data,
+          subject: `Demande de devis - ${serviceTitle}`,
+          service: serviceTitle
+        }),
       })
 
       if (!response.ok) {
-        throw new Error("Erreur lors de l_envoi du message.")
+        throw new Error("Erreur lors de l'envoi du message.")
       }
 
       toast({
-        title: "Message envoyé !",
-        description: "Nous vous recontacterons bientôt.",
+        title: "Demande de devis envoyée !",
+        description: "Nous vous contacterons bientôt avec un devis personnalisé.",
       })
       reset()
+      onClose()
     } catch (error) {
       toast({
         title: "Erreur",
@@ -54,20 +69,31 @@ export default function HomeContactSection() {
   }
 
   return (
-    <section id="contact-form-home" className="py-16 md:py-24 bg-gray-50 text-noir-profond">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-bleu-nuit mb-4">
-            Prêt à démarrer votre projet d'import ?
-          </h2>
-          <p className="text-noir-profond/80 mb-8">
-            Remplissez ce formulaire pour une demande de sourcing ou toute autre question.
-          </p>
-        </div>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="max-w-xl mx-auto space-y-6 bg-blanc p-8 rounded-lg shadow-lg"
-        >
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-[600px] bg-white">
+        <DialogHeader>
+          <DialogTitle className="text-2xl font-serif font-bold text-center text-blue-950">
+            Demande de devis - {serviceTitle}
+          </DialogTitle>
+          <DialogDescription className="text-black">
+            Remplissez ce formulaire pour recevoir un devis personnalisé pour nos services d'importation.
+          </DialogDescription>
+        </DialogHeader>
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div>
             <Input
               {...register("name")}
@@ -76,6 +102,7 @@ export default function HomeContactSection() {
             />
             {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>}
           </div>
+          
           <div>
             <Input
               {...register("email")}
@@ -85,14 +112,7 @@ export default function HomeContactSection() {
             />
             {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
           </div>
-          <div>
-            <Input
-              {...register("countryCity")}
-              placeholder="Pays & Ville"
-              className="bg-gray-100 border-gray-300 focus:border-dore focus:ring-dore"
-            />
-            {errors.countryCity && <p className="text-red-500 text-sm mt-1">{errors.countryCity.message}</p>}
-          </div>
+
           <div>
             <Input
               {...register("whatsappPhone")}
@@ -102,24 +122,35 @@ export default function HomeContactSection() {
             />
             {errors.whatsappPhone && <p className="text-red-500 text-sm mt-1">{errors.whatsappPhone.message}</p>}
           </div>
+
+          <div>
+            <Input
+              {...register("countryCity")}
+              placeholder="Pays & Ville"
+              className="bg-gray-100 border-gray-300 focus:border-dore focus:ring-dore"
+            />
+            {errors.countryCity && <p className="text-red-500 text-sm mt-1">{errors.countryCity.message}</p>}
+          </div>
+
           <div>
             <Textarea
               {...register("message")}
-              placeholder="Votre besoin / Produit recherché"
+              placeholder="Décrivez votre projet et vos besoins spécifiques..."
               rows={5}
               className="bg-gray-100 border-gray-300 focus:border-dore focus:ring-dore"
             />
             {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message.message}</p>}
           </div>
+
           <Button
             type="submit"
             disabled={isSubmitting}
             className="w-full bg-dore text-bleu-nuit hover:bg-dore/90 font-semibold py-3"
           >
-            {isSubmitting ? "Envoi en cours..." : "Envoyer ma demande"}
+            {isSubmitting ? "Envoi en cours..." : "Recevoir mon devis"}
           </Button>
         </form>
-      </div>
-    </section>
+      </DialogContent>
+    </Dialog>
   )
 }

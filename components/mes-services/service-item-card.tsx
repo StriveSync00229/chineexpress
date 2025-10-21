@@ -1,5 +1,4 @@
 import type React from "react"
-import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import type { LucideIcon } from "lucide-react"
 
@@ -7,11 +6,11 @@ interface ServiceItemCardProps {
   icon: React.ReactElement<LucideIcon>
   title: string
   description: string
-  ctaLink: string
+  onQuoteRequest: () => void
   ctaText: string
 }
 
-export default function ServiceItemCard({ icon, title, description, ctaLink, ctaText }: ServiceItemCardProps) {
+export default function ServiceItemCard({ icon, title, description, onQuoteRequest, ctaText }: ServiceItemCardProps) {
   return (
     <div className="group relative bg-blanc-pur p-8 rounded-lg shadow-md hover:shadow-xl 
                     border border-gris-anthracite/10 hover:border-dore/40
@@ -51,16 +50,14 @@ export default function ServiceItemCard({ icon, title, description, ctaLink, cta
         </p>
         
         <Button
-          asChild
+          onClick={onQuoteRequest}
           className="mt-auto bg-gradient-to-r from-dore to-yellow-500 text-gris-anthracite
                      hover:from-yellow-600 hover:to-dore font-boutons font-medium
                      w-full sm:w-auto self-start transform group-hover:scale-105 transition-all duration-300
                      shadow-md group-hover:shadow-lg border-0"
         >
-          <Link href={ctaLink} className="flex items-center gap-2">
-            <span>{ctaText}</span>
-            <span className="transform group-hover:translate-x-1 transition-transform duration-200">→</span>
-          </Link>
+          <span>{ctaText}</span>
+          <span className="transform group-hover:translate-x-1 transition-transform duration-200">→</span>
         </Button>
       </div>
       

@@ -62,12 +62,8 @@ export default function Footer() {
               +229 01 55 44 82 58</p>
             </div>
             <div className="flex gap-4 mt-4">
-              <Link href="#" aria-label="Facebook" className="text-white hover:text-dore">
+              <Link href="https://www.facebook.com/share/1AZ25McuRZ" aria-label="Facebook" className="text-white hover:text-dore">
                 <Facebook size={20} />
-              </Link>
-            
-              <Link href="#" aria-label="Instagram" className="text-white hover:text-dore">
-                <Instagram size={20} />
               </Link>
             </div>
           </div>

@@ -94,69 +94,90 @@ export default function ContactsAdmin() {
   }
 
   if (loading) {
-    return <div className="flex items-center justify-center h-64">Chargement...</div>
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-dore"></div>
+        <span className="ml-3 text-bleu-nuit">Chargement...</span>
+      </div>
+    )
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 animate-in fade-in duration-500">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Demandes de Contact</h1>
+          <h1 className="text-3xl font-bold text-bleu-nuit">Demandes de Contact</h1>
           <p className="text-gray-600 mt-2">Gérez les demandes de contact reçues depuis votre site</p>
         </div>
         <div className="flex space-x-3">
-          <Button variant="outline" onClick={handleExportExcel}>
+          <Button
+            variant="outline"
+            onClick={handleExportExcel}
+            className="border-dore text-dore hover:bg-dore hover:text-bleu-nuit transition-all duration-300"
+          >
             <Download className="h-4 w-4 mr-2" />
             Exporter Excel
           </Button>
         </div>
       </div>
 
-      {/* Statistiques rapides */}
+      {/* Statistiques rapides avec animations */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card>
+        <Card className="hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 animate-in slide-in-from-left duration-500 delay-100">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Contacts</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-bleu-nuit">Total Contacts</CardTitle>
+            <Users className="h-4 w-4 text-dore" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats.totalContacts}</div>
+            <div className="text-2xl font-bold text-bleu-nuit">{stats.totalContacts}</div>
+            <p className="text-xs text-gray-500 mt-1">Messages reçus</p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 animate-in slide-in-from-left duration-500 delay-200">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">En attente</CardTitle>
-            <Clock className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-bleu-nuit">En attente</CardTitle>
+            <Clock className="h-4 w-4 text-dore" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats.pendingContacts}</div>
+            <div className="text-2xl font-bold text-bleu-nuit">{stats.pendingContacts}</div>
+            <p className="text-xs text-gray-500 mt-1">À traiter</p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 animate-in slide-in-from-left duration-500 delay-300">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Traités</CardTitle>
-            <CheckCircle className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-bleu-nuit">Traités</CardTitle>
+            <CheckCircle className="h-4 w-4 text-dore" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats.processedContacts}</div>
+            <div className="text-2xl font-bold text-bleu-nuit">{stats.processedContacts}</div>
+            <p className="text-xs text-gray-500 mt-1">Messages traités</p>
           </CardContent>
         </Card>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {contacts.map((contact) => (
-          <Card key={contact.id} className="hover:shadow-lg transition-shadow">
-            <CardHeader className="pb-3">
+        {contacts.map((contact, index) => (
+          <Card
+            key={contact.id}
+            className="hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 hover:scale-105 animate-in slide-in-from-bottom duration-700"
+            style={{ animationDelay: `${index * 100}ms` }}
+          >
+            <CardHeader className="pb-3 bg-gradient-to-r from-bleu-nuit/5 to-dore/5 rounded-t-lg">
               <div className="flex justify-between items-start">
                 <div>
-                  <CardTitle className="text-lg">{contact.name}</CardTitle>
+                  <CardTitle className="text-lg text-bleu-nuit font-bold">{contact.name}</CardTitle>
                   <p className="text-sm text-gray-600">{contact.email}</p>
                 </div>
-                <Badge variant={
-                  contact.status === 'pending' ? 'default' : 'secondary'
-                }>
+                <Badge
+                  variant={contact.status === 'pending' ? 'default' : 'secondary'}
+                  className={
+                    contact.status === 'pending'
+                      ? 'bg-dore text-bleu-nuit hover:bg-dore/90' :
+                      'bg-green-100 text-green-800'
+                  }
+                >
                   {contact.status === 'pending' ? 'En attente' : 'Traité'}
                 </Badge>
               </div>
@@ -164,24 +185,24 @@ export default function ContactsAdmin() {
             <CardContent className="space-y-4">
               <div className="space-y-2">
                 <div className="flex items-center text-sm text-gray-600">
-                  <Mail className="h-4 w-4 mr-2" />
-                  <strong>Sujet:</strong> {contact.subject}
+                  <Mail className="h-4 w-4 mr-2 text-dore" />
+                  <span className="font-semibold text-bleu-nuit">Sujet: {contact.subject}</span>
                 </div>
 
                 {contact.phone && (
                   <div className="flex items-center text-sm text-gray-600">
                     <span className="mr-2">📞</span>
-                    {contact.phone}
+                    <span className="text-bleu-nuit font-medium">{contact.phone}</span>
                   </div>
                 )}
 
                 <div className="flex items-center text-sm text-gray-600">
-                  <Calendar className="h-4 w-4 mr-2" />
+                  <Calendar className="h-4 w-4 mr-2 text-dore" />
                   {new Date(contact.created_at).toLocaleDateString('fr-FR')}
                 </div>
               </div>
 
-              <div className="bg-gray-50 p-3 rounded-lg">
+              <div className="bg-gray-50 p-3 rounded-lg border-l-4 border-dore">
                 <p className="text-sm text-gray-700">{contact.message}</p>
               </div>
 
@@ -191,6 +212,7 @@ export default function ContactsAdmin() {
                     variant="outline"
                     size="sm"
                     onClick={() => handleStatusUpdate(contact.id, 'processed')}
+                    className="flex-1 hover:bg-dore hover:text-bleu-nuit transition-all duration-300"
                   >
                     <CheckCircle className="h-4 w-4 mr-1" />
                     Marquer comme traité
@@ -203,9 +225,9 @@ export default function ContactsAdmin() {
       </div>
 
       {contacts.length === 0 && (
-        <div className="text-center py-12">
-          <Users className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-          <h3 className="text-lg font-medium text-gray-900 mb-2">Aucune demande de contact</h3>
+        <div className="text-center py-12 animate-in fade-in duration-500">
+          <Users className="h-12 w-12 text-dore mx-auto mb-4 animate-bounce" />
+          <h3 className="text-lg font-medium text-bleu-nuit mb-2">Aucune demande de contact</h3>
           <p className="text-gray-600">Les demandes de contact apparaîtront ici.</p>
         </div>
       )}

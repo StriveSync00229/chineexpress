@@ -23,17 +23,23 @@ export default function AdminLogin() {
     setError('')
 
     try {
-      // Utiliser l'API route pour l'authentification
+      // Utiliser l'API route pour l'authentification (côté serveur)
       const response = await fetch('/api/admin/auth/login', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password
+        })
       })
 
       const data = await response.json()
 
-      if (response.ok) {
+      if (response.ok && data.message === 'Connexion réussie') {
         // Rediriger vers le dashboard admin
+        console.log('Connexion réussie, redirection vers dashboard...')
         router.push('/secure/melissa/import007/admin')
       } else {
         setError(data.error || 'Email ou mot de passe incorrect')

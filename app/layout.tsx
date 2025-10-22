@@ -1,5 +1,7 @@
 import type React from "react"
+import { Suspense } from "react"
 import type { Metadata } from "next"
+
 import { poppins, inter } from "@/lib/fonts"
 import "./globals.css"
 import { cn } from "@/lib/utils"
@@ -29,7 +31,10 @@ export default function RootLayout({
           <Header />
           <main className="flex-grow">{children}</main>
           <Footer />
-          <Toaster />
+          {/* Move Toaster inside a Suspense boundary */}
+          <Suspense fallback={null}>
+            <Toaster />
+          </Suspense>
       </body>
     </html>
   )

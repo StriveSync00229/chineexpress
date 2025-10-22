@@ -1,10 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
-
-const supabase = createClient(supabaseUrl, supabaseServiceKey)
+import { supabaseAdmin } from '@/lib/supabase'
 
 export async function POST(request: NextRequest) {
   try {
@@ -18,17 +13,31 @@ export async function POST(request: NextRequest) {
     }
 
     // Authentification avec Supabase (côté serveur uniquement)
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabaseAdmin.auth.signInWithPassword({
       email,
       password
     })
 
     if (error) {
+      console.log('Supabase auth error:', error)
       return NextResponse.json(
         { error: 'Email ou mot de passe incorrect' },
         { status: 401 }
       )
     }
+
+    // Vérifier que l'utilisateur est autorisé (admin)
+    const adminEmails = ['contact@chineexpresse.com']
+    if (!adminEmails.includes(data.user?.email || '')) {
+      return NextResponse.json(
+        { error: 'Accès non autorisé' },
+        { status: 403 }
+      )
+    }
+
+    console.log('User email:', data.user?.email)
+    console.log('Admin emails:', adminEmails)
+    console.log('Is admin:', adminEmails.includes(data.user?.email || ''))
 
     // Créer la réponse avec le cookie de session
     const response = NextResponse.json({

@@ -8,15 +8,16 @@ const supabase = createClient(supabaseUrl, supabaseServiceKey)
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { status } = await request.json()
+    const { id } = await params
 
     const { error } = await supabase
       .from('contact_submissions')
       .update({ status })
-      .eq('id', params.id)
+      .eq('id', id)
 
     if (error) throw error
 

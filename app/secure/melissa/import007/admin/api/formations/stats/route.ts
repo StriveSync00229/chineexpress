@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { supabaseAdmin } from '@/lib/supabase'
 
 export async function GET() {
   try {
     // Récupérer les statistiques des formations
-    const { data: formations, error: formationsError } = await supabase
+    const { data: formations, error: formationsError } = await supabaseAdmin
       .from('formations')
       .select('id, status, formation_inscriptions(status, amount)')
 

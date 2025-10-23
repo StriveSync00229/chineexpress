@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createCheckoutInvoice, type InvoiceItem } from '@/lib/paydunya'
+import type { InvoiceItem } from '@/lib/paydunya'
 
 export async function POST(request: NextRequest) {
   try {
@@ -12,6 +12,9 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       )
     }
+
+    // Import dynamique de PayDunya
+    const { createCheckoutInvoice } = await import('@/lib/paydunya')
 
     // Créer l'item pour la facture
     const items: InvoiceItem[] = [

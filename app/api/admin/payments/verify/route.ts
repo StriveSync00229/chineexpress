@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { paydunya } from '@/lib/paydunya'
 
 export async function POST(request: NextRequest) {
   try {
@@ -11,6 +10,9 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       )
     }
+
+    // Import dynamique de PayDunya
+    const { paydunya } = await import('@/lib/paydunya')
 
     // Vérifier le statut du paiement
     const invoice = paydunya.Invoice()

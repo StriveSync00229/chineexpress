@@ -44,6 +44,9 @@ export interface InvoiceResponse {
 // Import PayDunya (utilisation de require pour éviter les problèmes ESM)
 const paydunya = require('paydunya')
 
+// Exporter paydunya pour les usages avancés
+export { paydunya }
+
 // Configuration Setup
 const setupConfig: PayDunyaConfig = {
   masterKey: process.env.PAYDUNYA_MASTER_KEY || '',

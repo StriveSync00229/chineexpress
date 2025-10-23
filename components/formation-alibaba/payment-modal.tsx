@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { useToast } from "@/hooks/use-toast"
+import { DialogDescription } from "@/components/ui/dialog"
 
 interface PaymentModalProps {
   isOpen: boolean
@@ -80,6 +81,9 @@ export function PaymentModal({ isOpen, onClose, formation, inscription }: Paymen
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Paiement - {formation.title}</DialogTitle>
+          <DialogDescription>
+            Procédez au paiement sécurisé de votre formation
+          </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4">

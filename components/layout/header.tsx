@@ -5,11 +5,11 @@ import Link from "next/link"
 import Logo from "@/components/layout/logo"
 import NavigationLinks from "@/components/layout/navigation-links"
 import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from "@/components/ui/sheet"
 import { Menu } from 'lucide-react'
 import ServiceSelectionModal from "@/components/layout/service-selection-modal"
-
 export default function Header() {
+  
   const [isServiceModalOpen, setIsServiceModalOpen] = useState(false)
   const navItems = [
     { href: "/", label: "Accueil" },
@@ -39,6 +39,9 @@ export default function Header() {
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="bg-bleu-nuit text-white border-l-dore">
+                <SheetHeader>
+                  <SheetTitle className="text-dore">Navigation</SheetTitle>
+                </SheetHeader>
                 <nav className="grid gap-6 text-white text-lg font-medium mt-8">
                   {navItems.map((item) => (
                     <Link key={item.href} href={item.href} className="hover:text-dore transition-colors">

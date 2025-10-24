@@ -1,11 +1,8 @@
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  experimental: {
-    // Remove ignoreBuildErrors to see actual errors
-    // typescript: {
-    //   ignoreBuildErrors: true,
-    // },
+  typescript: {
+    ignoreBuildErrors: false,
   },
   images: {
     unoptimized: true,
@@ -25,6 +22,12 @@ const nextConfig: NextConfig = {
           return true
         }
       )
+
+      // Externalize paydunya on server-side to avoid bundling issues
+      if (!Array.isArray(config.externals)) {
+        config.externals = [config.externals]
+      }
+      config.externals.push('paydunya')
     }
 
     // Fix for node modules compatibility
@@ -33,6 +36,8 @@ const nextConfig: NextConfig = {
       fs: false,
       net: false,
       tls: false,
+      dns: false,
+      child_process: false,
     }
 
     return config

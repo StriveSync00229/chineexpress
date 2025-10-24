@@ -10,7 +10,7 @@ export async function GET() {
 
     if (formationsError) throw formationsError
 
-    const totalFormations = formations.length
+    const totalFormations = formations?.length || 0
     const totalInscriptions = formations.reduce((acc, formation) =>
       acc + (formation.formation_inscriptions?.length || 0), 0
     )

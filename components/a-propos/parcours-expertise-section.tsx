@@ -1,4 +1,5 @@
 import { Award, Briefcase, Users } from 'lucide-react'
+import Image from "next/image"
 
 const expertiseItems = [
   {
@@ -24,6 +25,22 @@ export default function ParcoursExpertiseSection() {
   return (
     <section className="py-16 md:py-24 bg-gray-50">
       <div className="container mx-auto px-4 md:px-6">
+        <div className="text-center mb-12">
+          <div className="relative aspect-video max-w-4xl mx-auto mb-8 rounded-lg overflow-hidden shadow-xl">
+            <Image
+              src="/personnes-au-bureau-pendant-une-journee-de-travail.jpg"
+              alt="Équipe de ChineExpresse en réunion"
+              layout="fill"
+              objectFit="cover"
+            />
+          </div>
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-bleu-nuit">
+            Notre Équipe en Action
+          </h2>
+          <p className="text-lg text-noir-profond/80 mt-4 max-w-2xl mx-auto">
+            Une équipe passionnée et experte, réunie pour vous offrir le meilleur service d'importation depuis la Chine.
+          </p>
+        </div>
         <h2 className="text-3xl md:text-4xl font-serif font-bold text-bleu-nuit text-center mb-12">
           Parcours et Expertises
         </h2>

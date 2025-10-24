@@ -1,14 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
+import { createAdminClient } from '@/lib/supabase'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
-
-const supabase = createClient(supabaseUrl, supabaseServiceKey)
-
-// GET /api/admin/formations - Récupérer toutes les formations
 export async function GET() {
   try {
+    const supabase = createAdminClient()
+
     const { data: formations, error } = await supabase
       .from('formations')
       .select('*')
@@ -26,7 +22,6 @@ export async function GET() {
   }
 }
 
-// POST /api/admin/formations - Créer une nouvelle formation
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
@@ -51,6 +46,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    const supabase = createAdminClient()
     const { data: formation, error } = await supabase
       .from('formations')
       .insert({
@@ -64,7 +60,7 @@ export async function POST(request: NextRequest) {
         promo_code: promoCode,
         discount,
         max_participants: maxParticipants,
-        status: 'active'
+        status: 'active' as const
       })
       .select()
       .single()

@@ -1,6 +1,7 @@
 import PresentationFormationSection from "@/components/formation-alibaba/presentation-formation-section"
 import ModulesFormationSection from "@/components/formation-alibaba/modules-formation-section"
 import FormatTarifFormationSection from "@/components/formation-alibaba/format-tarif-formation-section"
+import FormationsScheduleSection from "@/components/formation-alibaba/formations-schedule-section"
 import Image from "next/image"
 
 export default function FormationAlibabaPage() {
@@ -17,6 +18,7 @@ export default function FormationAlibabaPage() {
       <PresentationFormationSection />
       <ModulesFormationSection />
       <FormatTarifFormationSection />
+      <FormationsScheduleSection />
       <section className="py-16 md:py-24 bg-gray-50">
         <div className="container mx-auto px-4 md:px-6 text-center">
           <h2 className="text-2xl md:text-3xl font-serif font-bold text-bleu-nuit mb-8">
@@ -24,7 +26,7 @@ export default function FormationAlibabaPage() {
           </h2>
           <div className="relative aspect-video max-w-4xl mx-auto rounded-lg overflow-hidden shadow-xl">
             <Image
-              src="https://source.unsplash.com/1200x600/?ecommerce,dashboard,online,learning"
+              src="/le-responsable-de-l-expedition-interroge-les-employes-de-l-entrepot-sur-le-systeme-de-stockage-des-marchandises-les-employes-de-l-entrepot-afro-americains-parlent-et-utilisent-un-logiciel-d-inventaire-sur-un.jpg"
               alt="Capture d'écran d'Alibaba et icônes de formation"
               layout="fill"
               objectFit="cover"

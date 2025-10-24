@@ -24,10 +24,9 @@ type FormData = z.infer<typeof formSchema>
 
 export default function ContactFormSection() {
   const searchParams = useSearchParams()
-  const serviceQuery = searchParams.get("service")
-  const subjectQuery = searchParams.get("subject")
+  const serviceQuery = searchParams?.get("service") || ""
+  const subjectQuery = searchParams?.get("subject") || ""
   const { toast } = useToast()
-
   const {
     register,
     handleSubmit,

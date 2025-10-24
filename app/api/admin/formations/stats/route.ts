@@ -1,20 +1,17 @@
 import { NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
-
-const supabase = createClient(supabaseUrl, supabaseServiceKey)
+import { createAdminClient } from '@/lib/supabase'
 
 export async function GET() {
   try {
+    const supabase = createAdminClient()
+
     const { data: formations, error } = await supabase
       .from('formations')
       .select('id, status, formation_inscriptions(status, amount)')
 
     if (error) throw error
 
-    const totalFormations = formations.length
+    const totalFormations = formations?.length || 0
     const totalInscriptions = formations.reduce((acc: number, formation: any) =>
       acc + (formation.formation_inscriptions?.length || 0), 0
     )

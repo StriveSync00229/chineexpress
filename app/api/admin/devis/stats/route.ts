@@ -14,11 +14,11 @@ export async function GET() {
 
     if (error) throw error
 
-    const totalQuotes = quotes.length
-    const pendingQuotes = quotes.filter(q => q.status === 'pending').length
-    const quotedQuotes = quotes.filter(q => q.status === 'quoted').length
-    const completedQuotes = quotes.filter(q => q.status === 'completed').length
-
+    const totalQuotes = quotes?.length || 0
+    const pendingQuotes = quotes?.filter(q => q.status === 'pending')?.length || 0
+    const quotedQuotes = quotes?.filter(q => q.status === 'quoted')?.length || 0
+    const completedQuotes = quotes?.filter(q => q.status === 'completed')?.length || 0
+    
     return NextResponse.json({
       totalQuotes,
       pendingQuotes,

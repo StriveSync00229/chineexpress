@@ -25,7 +25,7 @@ export default function AboutPage() {
           </h2>
           <div className="relative aspect-video max-w-4xl mx-auto rounded-lg overflow-hidden shadow-xl">
             <Image
-              src="https://source.unsplash.com/1200x600/?map,network,connection,china,africa"
+              src="/logistique-et-transport-de-porte-conteneurs-et-d-avion-cargo-avec-pont-roulant-de-travail-dans-le-chantier-naval-au-lever-du-soleil-logistique-import-export-et-transport-contexte-de-l-industrie-ai-generative.jpg"
               alt="Carte stylisée Chine-Afrique avec icônes de partenaires"
               layout="fill"
               objectFit="cover"

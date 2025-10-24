@@ -6,12 +6,11 @@ export default function PortraitMelissaSection() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div className="relative aspect-square max-w-md mx-auto md:mx-0 rounded-lg overflow-hidden shadow-xl">
-            <Image
-              src="https://source.unsplash.com/600x600/?business,team,meeting,global,logistics"
-              alt="Équipe de ChineExpress en réunion"
+          <Image
+              src="/equipe-chineexpress-reunion.jpg"
+              alt="Équipe de ChineExpresse en réunion"
               layout="fill"
               objectFit="cover"
-              className="rounded-lg"
             />
           </div>
           <div>

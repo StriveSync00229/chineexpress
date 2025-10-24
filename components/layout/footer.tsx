@@ -11,7 +11,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <Logo />
-            <p className="mt-2 text-sm text-white">ChineExpresse est une plateforme spécialisée dans l'import-export de produits en provenance de Chine. Elle propose également des services de formation dans divers domaines. L'objectif est de permettre à ses clients d'accéder à des produits à prix compétitifs tout leur permettant de gagner de l'argent.</p>
+            <p className="mt-2 text-sm text-white">ChineExpresse est une entreprise spécialisée dans l'import-export de produits en provenance de Chine. Elle propose également des services de formation dans divers domaines. L'objectif est de permettre à ses clients d'accéder à des produits à prix compétitifs tout leur permettant de gagner de l'argent.</p>
           </div>
           <div>
             <h3 className="font-semibold text-dore mb-4">Navigation</h3>

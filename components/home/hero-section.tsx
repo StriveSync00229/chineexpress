@@ -6,14 +6,6 @@ import { Package, Plane } from 'lucide-react'
 export default function HeroSection() {
   return (
     <section className="relative bg-bleu-nuit text-white min-h-[calc(100vh-80px)] flex items-center justify-center py-20 overflow-hidden">
-      <Image
-        src="https://source.unsplash.com/1920x1080/?abstract,global,network,logistics"
-        alt="Arrière-plan abstrait logistique"
-        layout="fill"
-        objectFit="cover"
-        className="opacity-20 z-0"
-        priority
-      />
       <div className="absolute inset-0 bg-gradient-to-b from-bleu-nuit/50 to-bleu-nuit z-10"></div>
       <div className="container mx-auto px-4 md:px-6 text-center relative z-20">
         <div className="max-w-3xl mx-auto">

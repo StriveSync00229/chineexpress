@@ -224,7 +224,7 @@ export default function ContactsAdmin() {
         ))}
       </div>
 
-      {contacts.length === 0 && (
+      {(!contacts || contacts.length === 0) && (
         <div className="text-center py-12 animate-in fade-in duration-500">
           <Users className="h-12 w-12 text-dore mx-auto mb-4 animate-bounce" />
           <h3 className="text-lg font-medium text-bleu-nuit mb-2">Aucune demande de contact</h3>

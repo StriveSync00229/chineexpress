@@ -1,25 +1,44 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { paydunya } from '@/lib/paydunya'
 
 export async function POST(request: NextRequest) {
   try {
-    const { amount, description, customerName, customerEmail, customerPhone } = await request.json()
+    const {
+      amount,
+      description,
+      customerName,
+      customerEmail,
+      customerPhone,
+      customerCountry,
+      customerCity,
+      paymentMethod,
+      paymentData
+    } = await request.json()
 
-    if (!amount || !description || !customerName || !customerEmail) {
+    if (!amount || !description || !customerName || !customerEmail || !paymentMethod) {
       return NextResponse.json(
         { error: 'Données de paiement manquantes' },
         { status: 400 }
       )
     }
 
-    // Configuration du paiement PayDunya
-    const paymentData = {
+    // Configuration PayDunya PSR
+    const paydunyaConfig = {
+      masterKey: process.env.PAYDUNYA_MASTER_KEY,
+      privateKey: process.env.PAYDUNYA_PRIVATE_KEY,
+      publicKey: process.env.PAYDUNYA_PUBLIC_KEY,
+      token: process.env.PAYDUNYA_TOKEN,
+      mode: process.env.NODE_ENV === 'production' ? 'live' : 'test'
+    }
+
+    // Préparer les données selon la méthode de paiement
+    let paymentRequestData: any = {
       invoice: {
         total_amount: amount,
         description: description,
         customer_name: customerName,
         customer_email: customerEmail,
-        customer_phone: customerPhone
+        customer_phone: customerPhone,
+        customer_address: `${customerCity}, ${customerCountry}`
       },
       store: {
         name: 'ChineExpresse',
@@ -28,43 +47,88 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Créer l'invoice PayDunya
-    const invoice = paydunya.Invoice(paymentData.invoice)
-    invoice.store = paymentData.store
-
-    const result: any = await new Promise((resolve, reject) => {
-      invoice.create((err: any, body: any) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(body)
+    // Ajouter les données spécifiques selon le mode de paiement
+    if (paymentMethod === 'card') {
+      paymentRequestData = {
+        ...paymentRequestData,
+        card: {
+          card_number: paymentData.cardNumber.replace(/\s/g, ''),
+          card_name: paymentData.cardName,
+          expire_date: paymentData.expiryDate,
+          cvv: paymentData.cvv
         }
-      })
+      }
+    } else if (paymentMethod === 'momo') {
+      paymentRequestData = {
+        ...paymentRequestData,
+        mobile_money: {
+          phone_number: paymentData.phoneNumber,
+          provider: paymentData.network
+        }
+      }
+    }
+
+    console.log('Données de paiement PSR:', JSON.stringify(paymentRequestData, null, 2))
+
+    // Préparer les headers PayDunya (filtrer les valeurs undefined)
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+      'PAYDUNYA-MODE': paydunyaConfig.mode
+    }
+
+    if (paydunyaConfig.token) headers['Authorization'] = `Bearer ${paydunyaConfig.token}`
+    if (paydunyaConfig.masterKey) headers['PAYDUNYA-MASTER-KEY'] = paydunyaConfig.masterKey
+    if (paydunyaConfig.privateKey) headers['PAYDUNYA-PRIVATE-KEY'] = paydunyaConfig.privateKey
+    if (paydunyaConfig.publicKey) headers['PAYDUNYA-PUBLIC-KEY'] = paydunyaConfig.publicKey
+
+    console.log('Données de paiement PSR:', JSON.stringify(paymentRequestData, null, 2))
+
+    // Envoyer la requête à PayDunya PSR
+    const paydunyaResponse = await fetch('https://app.paydunya.com/api/v1/psr', {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(paymentRequestData)
     })
 
-    if (result.success && result.token) {
+    const result = await paydunyaResponse.json()
+    console.log('Réponse PayDunya PSR:', JSON.stringify(result, null, 2))
+
+    if (paydunyaResponse.ok && result.success) {
+      // Paiement réussi
       return NextResponse.json({
         success: true,
-        token: result.token,
-        redirect_url: result.redirect_url,
-        invoice_url: (invoice as any).invoice_url,
-        response_code: result.response_code
+        status: 'success',
+        transaction_id: result.transaction_id || result.token,
+        amount: amount,
+        currency: 'XOF',
+        description: description,
+        customer: {
+          name: customerName,
+          email: customerEmail,
+          phone: customerPhone
+        },
+        payment_method: paymentMethod,
+        response_code: result.response_code,
+        message: 'Paiement effectué avec succès'
       })
     } else {
-      return NextResponse.json(
-        {
-          error: result.description || 'Erreur lors de la création du paiement',
-          response_code: result.response_code
-        },
-        { status: 400 }
-      )
+      // Paiement échoué
+      return NextResponse.json({
+        success: false,
+        status: 'failed',
+        error: result.description || result.message || 'Échec du paiement',
+        response_code: result.response_code || 'PAYMENT_FAILED',
+        payment_method: paymentMethod
+      }, { status: 400 })
     }
 
   } catch (error) {
-    console.error('Erreur PayDunya:', error)
-    return NextResponse.json(
-      { error: 'Erreur serveur lors de la création du paiement' },
-      { status: 500 }
-    )
+    console.error('Erreur PayDunya PSR:', error)
+    return NextResponse.json({
+      success: false,
+      status: 'error',
+      error: 'Erreur serveur lors du traitement du paiement',
+      details: error.message
+    }, { status: 500 })
   }
 }

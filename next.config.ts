@@ -1,6 +1,8 @@
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
+  // Empty turbopack config to silence error and use webpack
+  turbopack: {},
   typescript: {
     ignoreBuildErrors: false,
   },

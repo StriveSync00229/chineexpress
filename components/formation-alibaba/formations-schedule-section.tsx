@@ -6,6 +6,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Calendar, MapPin, DollarSign, Users, Clock } from 'lucide-react'
 import Link from 'next/link'
+import { FormationCheckoutModal } from './FormationCheckoutModal'
+import { countries } from './data'
 
 interface Formation {
   id: string
@@ -16,8 +18,6 @@ interface Formation {
   time: string
   price: number
   currency: string
-  promo_code?: string
-  discount?: number
   max_participants: number
   current_participants: number
   status: 'active' | 'completed' | 'cancelled'
@@ -26,6 +26,8 @@ interface Formation {
 export default function FormationsScheduleSection() {
   const [formations, setFormations] = useState<Formation[]>([])
   const [loading, setLoading] = useState(true)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [selectedFormation, setSelectedFormation] = useState<Formation | null>(null)
 
   useEffect(() => {
     fetchFormations()
@@ -60,13 +62,13 @@ export default function FormationsScheduleSection() {
     return type === 'online' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'
   }
 
-  const calculateDiscountedPrice = (price: number, discount?: number) => {
-    if (!discount) return price
-    return price * (1 - discount / 100)
-  }
-
   const isAlmostFull = (current: number, max: number) => {
     return (current / max) > 0.8 // Plus de 80% des places prises
+  }
+
+  const handleInscription = (formation: Formation) => {
+    setSelectedFormation(formation)
+    setIsModalOpen(true)
   }
 
   if (loading) {
@@ -136,35 +138,18 @@ export default function FormationsScheduleSection() {
                   </div>
 
                   <div className="pt-2 border-t">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center">
-                        <DollarSign className="h-4 w-4 mr-1 text-dore" />
-                        <span className="font-semibold text-bleu-nuit">
-                          {formation.discount ? (
-                            <div className="flex flex-col">
-                              <span className="text-lg">
-                                {calculateDiscountedPrice(formation.price, formation.discount).toFixed(0)} {formation.currency}
-                              </span>
-                              <span className="text-sm text-gray-500 line-through">
-                                {formation.price} {formation.currency}
-                              </span>
-                            </div>
-                          ) : (
-                            <span className="text-lg">
-                              {formation.price} {formation.currency}
-                            </span>
-                          )}
-                        </span>
-                      </div>
-                      {formation.promo_code && (
-                        <Badge variant="outline" className="text-xs">
-                          {formation.promo_code}
-                        </Badge>
-                      )}
+                    <div className="flex items-center">
+                      <DollarSign className="h-4 w-4 mr-1 text-dore" />
+                      <span className="font-semibold text-bleu-nuit text-lg">
+                        {formation.price.toLocaleString()} {formation.currency}
+                      </span>
                     </div>
                   </div>
 
-                  <Button className="w-full mt-4 bg-dore text-bleu-nuit hover:bg-dore/90">
+                  <Button
+                    className="w-full mt-4 bg-dore text-bleu-nuit hover:bg-dore/90"
+                    onClick={() => handleInscription(formation)}
+                  >
                     S'inscrire à cette formation
                   </Button>
                 </CardContent>
@@ -187,6 +172,24 @@ export default function FormationsScheduleSection() {
           </Button>
         </div>
       </div>
+
+      {/* Modal d'inscription avec paiement PayDunya */}
+      {selectedFormation && (
+        <FormationCheckoutModal
+          isOpen={isModalOpen}
+          onClose={() => {
+            setIsModalOpen(false)
+            setSelectedFormation(null)
+          }}
+          formation={{
+            title: selectedFormation.title,
+            price: selectedFormation.price,
+            currency: selectedFormation.currency,
+            id: selectedFormation.id
+          }}
+          countries={countries}
+        />
+      )}
     </section>
   )
 }

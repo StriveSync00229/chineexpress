@@ -30,6 +30,7 @@ export interface CreateInvoiceData {
   description: string
   returnURL?: string
   cancelURL?: string
+  callbackURL?: string
   customData?: Record<string, string>
 }
 
@@ -53,7 +54,8 @@ const setupConfig: PayDunyaConfig = {
   privateKey: process.env.PAYDUNYA_PRIVATE_KEY || '',
   publicKey: process.env.PAYDUNYA_PUBLIC_KEY || '',
   token: process.env.PAYDUNYA_TOKEN || '',
-  mode: process.env.NODE_ENV === 'production' ? 'live' : 'test'
+  // Force 'live' mode since we're using live API keys (live_private_..., live_public_...)
+  mode: 'live'
 }
 
 // Vérifier que toutes les clés sont présentes
@@ -78,6 +80,20 @@ const store = new paydunya.Store(storeConfig)
  */
 export async function createCheckoutInvoice(data: CreateInvoiceData): Promise<InvoiceResponse> {
   try {
+    console.log('🟠 [LIB PAYDUNYA] Début création invoice')
+    console.log('🟠 [LIB PAYDUNYA] Config:', {
+      mode: setupConfig.mode,
+      hasKeys: {
+        masterKey: !!setupConfig.masterKey,
+        privateKey: !!setupConfig.privateKey,
+        publicKey: !!setupConfig.publicKey,
+        token: !!setupConfig.token
+      }
+    })
+    console.log('🟠 [LIB PAYDUNYA] Items:', data.items)
+    console.log('🟠 [LIB PAYDUNYA] Total amount:', data.totalAmount)
+    console.log('🟠 [LIB PAYDUNYA] Description:', data.description)
+
     const invoice = new paydunya.CheckoutInvoice(setup, store)
 
     // Ajouter les items
@@ -102,16 +118,28 @@ export async function createCheckoutInvoice(data: CreateInvoiceData): Promise<In
     if (data.cancelURL) {
       invoice.cancelURL = data.cancelURL
     }
+    if (data.callbackURL) {
+      invoice.callbackURL = data.callbackURL
+      console.log('🟠 [LIB PAYDUNYA] Callback URL configurée:', data.callbackURL)
+    }
 
     // Données personnalisées (optionnel)
     if (data.customData) {
       Object.entries(data.customData).forEach(([key, value]) => {
         invoice.addCustomData(key, value)
       })
+      console.log('🟠 [LIB PAYDUNYA] Custom data:', data.customData)
     }
 
     // Créer la facture
+    console.log('🟠 [LIB PAYDUNYA] Appel invoice.create()...')
     await invoice.create()
+
+    console.log('🟠 [LIB PAYDUNYA] Invoice créée avec succès!')
+    console.log('🟠 [LIB PAYDUNYA] Token:', invoice.token)
+    console.log('🟠 [LIB PAYDUNYA] URL:', invoice.url)
+    console.log('🟠 [LIB PAYDUNYA] Response code:', invoice.responseCode)
+    console.log('🟠 [LIB PAYDUNYA] Response text:', invoice.responseText)
 
     return {
       success: true,
@@ -121,7 +149,8 @@ export async function createCheckoutInvoice(data: CreateInvoiceData): Promise<In
       responseText: invoice.responseText
     }
   } catch (error: any) {
-    console.error('Erreur création facture PayDunya:', error)
+    console.error('💥 [LIB PAYDUNYA] Erreur création facture:', error)
+    console.error('💥 [LIB PAYDUNYA] Stack:', error.stack)
     return {
       success: false,
       responseText: error.message || 'Erreur lors de la création de la facture'

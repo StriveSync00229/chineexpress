@@ -1,17 +1,17 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { jwtVerify } from 'jose'
+import { createClient } from '@supabase/supabase-js'
 
 /**
- * Proxy Next.js 16 - Protection des routes admin avec JWT
+ * Proxy Next.js 16 - Protection des routes admin avec authentification hybride
+ *
+ * Supporte deux modes d'authentification:
+ * 1. JWT local (si ADMIN_USERNAME/ADMIN_PASSWORD configurés)
+ * 2. Supabase Auth (fallback automatique)
  *
  * Note: Next.js 16 utilise proxy.ts pour la protection des routes.
  * Ce code s'exécute à la frontière réseau avant l'application.
- *
- * Différences avec middleware.ts:
- * - Runtime: Node.js (pas Edge)
- * - Nom: "proxy" clarifie qu'on est à la couche réseau
- * - Accès complet à l'API Node.js
  *
  * @see https://nextjs.org/docs/app/api-reference/file-conventions/proxy
  */
@@ -20,6 +20,11 @@ import { jwtVerify } from 'jose'
 const JWT_SECRET = new TextEncoder().encode(
   process.env.JWT_SECRET || 'default-secret-change-this-in-production'
 )
+
+// Client Supabase pour vérification des sessions
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
+const supabase = createClient(supabaseUrl, supabaseServiceKey)
 
 // Routes qui nécessitent une authentification
 const PROTECTED_ROUTES = [
@@ -48,35 +53,53 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next()
   }
 
-  // Vérifier le token d'authentification
-  const token = request.cookies.get('admin-session')?.value
+  // MODE 1: Vérifier le token JWT local
+  const jwtToken = request.cookies.get('admin-session')?.value
 
-  if (!token) {
-    // Pas de token, rediriger vers la page de login
-    const loginUrl = new URL('/secure/melissa/import007/login', request.url)
-    loginUrl.searchParams.set('redirect', pathname)
-    return NextResponse.redirect(loginUrl)
+  if (jwtToken) {
+    try {
+      // Vérifier la validité du token JWT local
+      await jwtVerify(jwtToken, JWT_SECRET)
+
+      // Token valide, laisser passer
+      console.log('✅ [PROXY] Authentification locale réussie pour:', pathname)
+      return NextResponse.next()
+    } catch (error) {
+      console.log('⚠️  [PROXY] Token JWT local invalide, tentative Supabase...')
+      // Ne pas rediriger ici, essayer d'abord Supabase Auth
+    }
   }
 
-  try {
-    // Vérifier la validité du token JWT
-    await jwtVerify(token, JWT_SECRET)
+  // MODE 2: Vérifier la session Supabase (fallback)
+  const supabaseToken = request.cookies.get('supabase-session')?.value
 
-    // Token valide, laisser passer
-    console.log('✅ [PROXY] Authentification réussie pour:', pathname)
-    return NextResponse.next()
-  } catch (error) {
-    // Token invalide, rediriger vers la page de login
-    console.log('❌ [PROXY] Token invalide, redirection vers login')
-    const loginUrl = new URL('/secure/melissa/import007/login', request.url)
-    loginUrl.searchParams.set('redirect', pathname)
+  if (supabaseToken) {
+    try {
+      // Vérifier la validité du token Supabase
+      const { data, error } = await supabase.auth.getUser(supabaseToken)
 
-    const response = NextResponse.redirect(loginUrl)
-    // Supprimer le cookie invalide
-    response.cookies.delete('admin-session')
+      if (!error && data.user) {
+        console.log('✅ [PROXY] Authentification Supabase réussie pour:', pathname)
+        return NextResponse.next()
+      }
 
-    return response
+      console.log('⚠️  [PROXY] Token Supabase invalide:', error?.message)
+    } catch (error) {
+      console.log('⚠️  [PROXY] Erreur vérification Supabase:', error)
+    }
   }
+
+  // Aucune authentification valide trouvée
+  console.log('❌ [PROXY] Aucune authentification valide, redirection vers login')
+  const loginUrl = new URL('/secure/melissa/import007/login', request.url)
+  loginUrl.searchParams.set('redirect', pathname)
+
+  const response = NextResponse.redirect(loginUrl)
+  // Supprimer les cookies invalides
+  response.cookies.delete('admin-session')
+  response.cookies.delete('supabase-session')
+
+  return response
 }
 
 // Configuration du matcher Next.js 16

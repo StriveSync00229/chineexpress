@@ -1,14 +1,22 @@
 import { NextResponse } from "next/server"
 import * as z from "zod"
+import { createAdminClient } from "@/lib/supabase"
 
+// Schéma unifié pour contact et devis
 const formSchema = z.object({
   name: z.string().min(2),
   email: z.string().email(),
-  countryCity: z.string().min(2),
+  countryCity: z.string().min(2).optional(),
   address: z.string().optional(),
-  need: z.string().min(10),
+  need: z.string().min(10).optional(),
+  message: z.string().min(10).optional(),
   phone: z.string().optional(),
+  whatsappPhone: z.string().optional(),
   service: z.string().optional(),
+  subject: z.string().optional(),
+  product: z.string().optional(),
+  quantity: z.string().optional(),
+  budget: z.string().optional(),
 })
 
 export async function POST(request: Request) {
@@ -23,23 +31,91 @@ export async function POST(request: Request) {
       )
     }
 
-    const { name, email, countryCity, address, need, phone, service } = parsedData.data
+    const data = parsedData.data
 
-    // Ici, vous intégreriez l'envoi d'email ou la sauvegarde en base de données.
-    // Par exemple, avec Nodemailer, Resend, ou une API CRM.
-    console.log("Nouvelle demande de contact reçue:")
-    console.log("Nom:", name)
-    console.log("Email:", email)
-    console.log("Pays/Ville:", countryCity)
-    if (address) console.log("Adresse:", address)
-    console.log("Besoin:", need)
-    if (phone) console.log("Téléphone:", phone)
-    if (service) console.log("Service concerné (via query param):", service)
+    // Déterminer le type de soumission
+    const isDevis = !!data.subject?.includes("Demande de devis") || !!data.product
+    const type = isDevis ? 'devis' : 'contact'
 
-    // Simuler un traitement
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+    // Préparer le message
+    const message = data.message || data.need || ''
 
-    return NextResponse.json({ message: "Message envoyé avec succès !" }, { status: 200 })
+    // Sauvegarder dans Supabase
+    const supabase = createAdminClient()
+    const { data: submission, error } = await supabase
+      .from('submissions')
+      .insert({
+        type,
+        name: data.name,
+        email: data.email,
+        phone: data.phone || data.whatsappPhone,
+        country_city: data.countryCity,
+        message,
+        product: data.product,
+        quantity: data.quantity,
+        budget: data.budget,
+        address: data.address,
+        subject: data.subject,
+        service: data.service,
+        status: 'pending'
+      })
+      .select()
+      .single()
+
+    if (error) {
+      console.error("Erreur Supabase:", error)
+      throw error
+    }
+
+    console.log(`Nouvelle soumission ${type} créée:`, submission.id)
+
+    // Envoyer les emails de confirmation et notification
+    try {
+      if (type === 'devis') {
+        // Import dynamique pour éviter les problèmes de build
+        const { sendDevisConfirmationEmail, sendAdminDevisNotification } = await import('@/lib/email/service')
+
+        // Email de confirmation à l'utilisateur
+        await sendDevisConfirmationEmail(data.email, data.name, data.service)
+
+        // Notification à l'admin
+        await sendAdminDevisNotification({
+          name: data.name,
+          email: data.email,
+          phone: data.phone || data.whatsappPhone,
+          countryCity: data.countryCity,
+          message,
+          service: data.service,
+          product: data.product,
+          quantity: data.quantity,
+          budget: data.budget
+        })
+      } else {
+        // Type contact
+        const { sendContactConfirmationEmail, sendAdminContactNotification } = await import('@/lib/email/service')
+
+        // Email de confirmation à l'utilisateur
+        await sendContactConfirmationEmail(data.email, data.name)
+
+        // Notification à l'admin
+        await sendAdminContactNotification({
+          name: data.name,
+          email: data.email,
+          phone: data.phone || data.whatsappPhone,
+          countryCity: data.countryCity,
+          message,
+          service: data.service
+        })
+      }
+    } catch (emailError) {
+      // Ne pas bloquer la réponse si l'envoi d'email échoue
+      console.error('Erreur envoi emails:', emailError)
+    }
+
+    return NextResponse.json({
+      message: "Message envoyé avec succès !",
+      submissionId: submission.id
+    }, { status: 200 })
   } catch (error) {
     console.error("Erreur API Contact:", error)
     return NextResponse.json({ message: "Erreur interne du serveur." }, { status: 500 })

@@ -1,22 +1,27 @@
 import { NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
-
-const supabase = createClient(supabaseUrl, supabaseServiceKey)
+import { createAdminClient } from '@/lib/supabase'
 
 export async function GET() {
   try {
-    const { count, error } = await supabase
-      .from('contact_submissions')
-      .select('*', { count: 'exact', head: true })
-      .eq('status', 'pending')
+    const supabase = createAdminClient()
+
+    // Récupérer tous les contacts depuis la table unifiée submissions
+    const { data: submissions, error } = await supabase
+      .from('submissions')
+      .select('status')
+      .eq('type', 'contact')
 
     if (error) throw error
 
+    const totalContacts = submissions?.length || 0
+    const pendingContacts = submissions?.filter(s => s.status === 'pending')?.length || 0
+    const processedContacts = submissions?.filter(s => s.status === 'processed')?.length || 0
+
     return NextResponse.json({
-      totalPending: count || 0
+      totalContacts,
+      totalPending: pendingContacts, // Pour compatibilité avec dashboard principal
+      pendingContacts,
+      processedContacts
     })
   } catch (error) {
     console.error('Erreur lors de la récupération des statistiques contacts:', error)

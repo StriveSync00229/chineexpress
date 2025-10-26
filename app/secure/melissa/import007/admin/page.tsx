@@ -92,7 +92,7 @@ export default function AdminDashboard() {
       setStats({
         ...formationsData,
         pendingContacts: contactsData.totalPending || 0,
-        pendingDevis: quotesData.totalPending || 0
+        pendingDevis: quotesData.pendingQuotes || 0
       })
     } catch (error) {
       console.error('Erreur lors du chargement des statistiques:', error)

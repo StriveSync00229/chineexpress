@@ -3,6 +3,10 @@ import { createAdminClient } from '@/lib/supabase'
 import crypto from 'crypto'
 import type { PaymentItemType, PaymentStatus } from '@/lib/payment/types'
 
+// Configuration du segment Next.js 16
+export const runtime = 'nodejs'  // Use Node.js runtime pour crypto et Supabase
+export const dynamic = 'force-dynamic'  // Webhooks sont toujours dynamiques
+
 /**
  * Webhook IPN (Instant Payment Notification) de PayDunya
  * Reçoit les notifications de paiement en temps réel
@@ -112,8 +116,33 @@ export async function POST(request: NextRequest) {
               console.log('📩 [IPN] ✅ Inscription mise à jour:', inscription.id)
               updated = true
 
-              // TODO: Envoyer un email de confirmation
-              // await sendFormationConfirmationEmail(customerEmail, customerName, inscription)
+              // Récupérer les détails de la formation pour l'email
+              const { data: formation, error: formationError } = await supabase
+                .from('formations')
+                .select('*')
+                .eq('id', inscription.formation_id)
+                .single()
+
+              if (!formationError && formation) {
+                // Envoyer l'email de confirmation de paiement
+                try {
+                  const { sendPaymentConfirmationEmail } = await import('@/lib/email/service')
+                  await sendPaymentConfirmationEmail({
+                    to: customerEmail,
+                    name: customerName,
+                    formationTitle: formation.title,
+                    amount: totalAmount,
+                    currency: formation.currency,
+                    date: formation.date,
+                    time: formation.time,
+                    location: formation.location,
+                    type: formation.type
+                  })
+                  console.log('📩 [IPN] ✅ Email de confirmation envoyé')
+                } catch (emailError) {
+                  console.error('📩 [IPN] ⚠️ Erreur envoi email (non bloquant):', emailError)
+                }
+              }
             }
           } else {
             console.warn('📩 [IPN] ⚠️ Aucune inscription en attente trouvée pour:', customerEmail)

@@ -1,49 +1,46 @@
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  // Empty turbopack config to silence error and use webpack
+  // Turbopack est maintenant le bundler par défaut en dev avec --turbo
+  // et fonctionne aussi en production
   turbopack: {},
+
+  // TypeScript strict mode
   typescript: {
     ignoreBuildErrors: false,
   },
+
+  // Optimisation des images Next.js
   images: {
-    unoptimized: true,
+    formats: ['image/webp', 'image/avif'],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'hebbkx1anhila5yf.public.blob.vercel-storage.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'ttzosonjpjphlpcyjvfu.supabase.co',
+        pathname: '/storage/v1/object/public/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'source.unsplash.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        pathname: '/**',
+      },
+    ],
   },
-  // Fix for React 18 compatibility
+
+  // Transpiler les packages qui en ont besoin
   transpilePackages: ['lucide-react'],
-  // Proper webpack configuration for React 18
-  webpack: (config: any, { isServer }: { isServer: boolean }) => {
-    // Handle module resolution for React 18
-    if (isServer) {
-      // Remove problematic externals that cause "react is not defined"
-      config.externals = config.externals.filter(
-        (external: string | object) => {
-          if (typeof external === 'string') {
-            return !['react', 'react-dom'].includes(external)
-          }
-          return true
-        }
-      )
-
-      // Externalize paydunya on server-side to avoid bundling issues
-      if (!Array.isArray(config.externals)) {
-        config.externals = [config.externals]
-      }
-      config.externals.push('paydunya')
-    }
-
-    // Fix for node modules compatibility
-    config.resolve.fallback = {
-      ...config.resolve.fallback,
-      fs: false,
-      net: false,
-      tls: false,
-      dns: false,
-      child_process: false,
-    }
-
-    return config
-  }
 }
 
 export default nextConfig

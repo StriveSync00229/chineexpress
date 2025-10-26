@@ -1,11 +1,10 @@
 "use client"
 
-import { useState, useRef } from "react"
-import { useRouter } from "next/navigation"
+import { useState, useRef, useEffect } from "react"
+import { useRouter, useParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { ArrowLeft, Save, Calendar, Upload, X } from "lucide-react"
@@ -23,11 +22,15 @@ interface FormationFormData {
   discount?: string
   maxParticipants: string
   imageUrl?: string
+  status: 'active' | 'completed' | 'cancelled'
 }
 
-export default function NewFormationPage() {
+export default function EditFormationPage() {
   const router = useRouter()
+  const params = useParams()
+  const formationId = params.id as string
   const fileInputRef = useRef<HTMLInputElement>(null)
+
   const [formData, setFormData] = useState<FormationFormData>({
     title: '',
     type: 'online',
@@ -39,12 +42,60 @@ export default function NewFormationPage() {
     promoCode: '',
     discount: '',
     maxParticipants: '',
-    imageUrl: ''
+    imageUrl: '',
+    status: 'active'
   })
+  const [initialLoading, setInitialLoading] = useState(true)
   const [loading, setLoading] = useState(false)
   const [uploading, setUploading] = useState(false)
   const [errors, setErrors] = useState<Partial<FormationFormData>>({})
   const [imagePreview, setImagePreview] = useState<string>('')
+
+  // Charger les données de la formation
+  useEffect(() => {
+    const fetchFormation = async () => {
+      try {
+        const response = await fetch(`/api/admin/formations/${formationId}`)
+        if (!response.ok) {
+          throw new Error('Formation non trouvée')
+        }
+
+        const formation = await response.json()
+
+        // Formater la date pour l'input date (YYYY-MM-DD)
+        const formattedDate = formation.date ? new Date(formation.date).toISOString().split('T')[0] : ''
+
+        setFormData({
+          title: formation.title || '',
+          type: formation.type || 'online',
+          location: formation.location || '',
+          date: formattedDate,
+          time: formation.time || '',
+          price: formation.price?.toString() || '',
+          currency: formation.currency || '€',
+          promoCode: formation.promo_code || '',
+          discount: formation.discount?.toString() || '',
+          maxParticipants: formation.max_participants?.toString() || '',
+          imageUrl: formation.image_url || '',
+          status: formation.status || 'active'
+        })
+
+        if (formation.image_url) {
+          setImagePreview(formation.image_url)
+        }
+      } catch (error) {
+        console.error('Erreur lors du chargement de la formation:', error)
+        alert('Erreur lors du chargement de la formation')
+        router.push('/secure/melissa/import007/admin/formations')
+      } finally {
+        setInitialLoading(false)
+      }
+    }
+
+    if (formationId) {
+      fetchFormation()
+    }
+  }, [formationId, router])
 
   const validateForm = () => {
     const newErrors: Partial<FormationFormData> = {}
@@ -171,8 +222,8 @@ export default function NewFormationPage() {
     setLoading(true)
 
     try {
-      const response = await fetch('/api/admin/formations', {
-        method: 'POST',
+      const response = await fetch(`/api/admin/formations/${formationId}`, {
+        method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...formData,
@@ -186,10 +237,10 @@ export default function NewFormationPage() {
         router.push('/secure/melissa/import007/admin/formations')
       } else {
         const errorData = await response.json()
-        alert('Erreur lors de la création: ' + errorData.error)
+        alert('Erreur lors de la mise à jour: ' + errorData.error)
       }
     } catch (error) {
-      alert('Erreur lors de la création de la formation')
+      alert('Erreur lors de la mise à jour de la formation')
     } finally {
       setLoading(false)
     }
@@ -203,6 +254,15 @@ export default function NewFormationPage() {
     }
   }
 
+  if (initialLoading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-dore"></div>
+        <p className="ml-4 text-gray-600">Chargement de la formation...</p>
+      </div>
+    )
+  }
+
   return (
     <div className="space-y-8">
       <div className="flex items-center space-x-4">
@@ -213,8 +273,8 @@ export default function NewFormationPage() {
           </Link>
         </Button>
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Créer une Formation</h1>
-          <p className="text-gray-600 mt-2">Programmez une nouvelle formation Alibaba</p>
+          <h1 className="text-3xl font-bold text-gray-900">Modifier la Formation</h1>
+          <p className="text-gray-600 mt-2">Mettez à jour les informations de la formation</p>
         </div>
       </div>
 
@@ -258,9 +318,24 @@ export default function NewFormationPage() {
                     </Select>
                   </div>
 
+                  {/* Statut */}
+                  <div>
+                    <Label htmlFor="status">Statut *</Label>
+                    <Select value={formData.status} onValueChange={(value: 'active' | 'completed' | 'cancelled') => handleInputChange('status', value)}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Sélectionnez le statut" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="active">Active</SelectItem>
+                        <SelectItem value="completed">Terminée</SelectItem>
+                        <SelectItem value="cancelled">Annulée</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
                   {/* Lieu (conditionnel) */}
                   {formData.type === 'presential' && (
-                    <div>
+                    <div className="lg:col-span-2">
                       <Label htmlFor="location">Lieu *</Label>
                       <Input
                         id="location"
@@ -378,11 +453,11 @@ export default function NewFormationPage() {
                   </Button>
                   <Button type="submit" disabled={loading}>
                     {loading ? (
-                      'Création en cours...'
+                      'Mise à jour en cours...'
                     ) : (
                       <>
                         <Save className="h-4 w-4 mr-2" />
-                        Créer la formation
+                        Enregistrer les modifications
                       </>
                     )}
                   </Button>

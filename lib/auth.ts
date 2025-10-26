@@ -1,75 +1,87 @@
-import type { NextRequest } from 'next/server'
+import { SignJWT, jwtVerify } from 'jose'
+import { cookies } from 'next/headers'
 
-// Types pour les fonctions d'authentification
-export interface AuthResult {
-  authenticated: boolean
-  user?: any
+// Clé secrète pour JWT
+const JWT_SECRET = new TextEncoder().encode(
+  process.env.JWT_SECRET || 'default-secret-change-this-in-production'
+)
+
+export interface SessionData {
+  username: string
+  isAdmin: boolean
+  expiresAt: number
 }
 
-export interface LoginResult {
-  success: boolean
-  error?: string
-  user?: any
+/**
+ * Créer un token JWT
+ */
+export async function createToken(username: string): Promise<string> {
+  const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7 jours
+
+  const token = await new SignJWT({
+    username,
+    isAdmin: true,
+    expiresAt: expiresAt.getTime()
+  })
+    .setProtectedHeader({ alg: 'HS256' })
+    .setIssuedAt()
+    .setExpirationTime('7d')
+    .sign(JWT_SECRET)
+
+  return token
 }
 
-// Fonction pour vérifier l'authentification admin (utilisée côté serveur uniquement)
-export async function verifyAdminAuth(request: NextRequest): Promise<AuthResult> {
+/**
+ * Vérifier et décoder un token JWT
+ */
+export async function verifyToken(token: string): Promise<SessionData | null> {
   try {
-    // Récupérer le token d'accès depuis les cookies ou headers
-    const token = request.cookies.get('sb-access-token')?.value ||
-                  request.headers.get('authorization')?.replace('Bearer ', '')
-
-    console.log('=== MIDDLEWARE DEBUG ===')
-    console.log('Token found:', !!token)
-    console.log('Token length:', token?.length || 0)
-
-    if (!token) {
-      console.log('❌ No token found in cookies')
-      return { authenticated: false }
-    }
-
-    // Vérifier le token avec Supabase
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
-
-    if (!supabaseUrl || !supabaseServiceKey) {
-      console.error('❌ Variables d\'environnement Supabase manquantes')
-      return { authenticated: false }
-    }
-
-    console.log('Verifying token with Supabase...')
-    const response = await fetch(`${supabaseUrl}/auth/v1/user`, {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'apikey': supabaseServiceKey,
-        'Content-Type': 'application/json'
-      }
-    })
-
-    console.log('Supabase response status:', response.status)
-
-    if (response.ok) {
-      const userData = await response.json()
-      console.log('Full user data response:', JSON.stringify(userData, null, 2))
-
-      // La réponse peut être directement l'utilisateur, pas dans userData.user
-      const userEmail = userData?.email || userData?.user?.email
-
-      console.log('User email extracted:', userEmail)
-      const adminEmails = ['contact@chineexpresse.com']
-      console.log('Admin emails:', adminEmails)
-      console.log('Is admin check:', userEmail && adminEmails.includes(userEmail))
-
-      if (userEmail && adminEmails.includes(userEmail)) {
-        console.log('✅ User authenticated successfully')
-        return { authenticated: true, user: userData }
-      }
-    }
-
-    console.log('❌ Authentication failed')
-    return { authenticated: false }
-  } catch (error: unknown) {
-    console.error('Erreur lors de la vérification de l\'authentification:', error)
-    return { authenticated: false }
+    const { payload } = await jwtVerify(token, JWT_SECRET)
+    return payload as SessionData
+  } catch (error) {
+    return null
   }
+}
+
+/**
+ * Définir le cookie de session
+ */
+export async function setSessionCookie(token: string) {
+  const cookieStore = await cookies()
+
+  cookieStore.set('admin-session', token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    maxAge: 7 * 24 * 60 * 60, // 7 jours
+    path: '/'
+  })
+}
+
+/**
+ * Supprimer le cookie de session
+ */
+export async function deleteSessionCookie() {
+  const cookieStore = await cookies()
+  cookieStore.delete('admin-session')
+}
+
+/**
+ * Récupérer la session actuelle
+ */
+export async function getSession(): Promise<SessionData | null> {
+  const cookieStore = await cookies()
+  const token = cookieStore.get('admin-session')?.value
+
+  if (!token) return null
+
+  return verifyToken(token)
+}
+
+/**
+ * Vérifier si l'utilisateur est authentifié
+ */
+export async function isAuthenticated(): Promise<boolean> {
+  const session = await getSession()
+  return session !== null && session.expiresAt > Date.now()
 }

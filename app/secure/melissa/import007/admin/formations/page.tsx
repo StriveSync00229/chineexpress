@@ -14,9 +14,11 @@ import {
   Users,
   Eye,
   Download,
-  TrendingUp
+  TrendingUp,
+  Image as ImageIcon
 } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 
 interface Formation {
   id: string
@@ -31,6 +33,7 @@ interface Formation {
   discount?: number
   max_participants: number
   current_participants: number
+  image_url?: string
   status: 'active' | 'completed' | 'cancelled'
   created_at: string
   updated_at: string
@@ -173,7 +176,23 @@ export default function FormationsAdmin() {
       <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
         {Array.isArray(formations) && formations.length > 0 ? (
           formations.map((formation) => (
-            <Card key={formation.id} className="hover:shadow-lg transition-shadow">
+            <Card key={formation.id} className="hover:shadow-lg transition-shadow overflow-hidden">
+              {/* Image de la formation */}
+              {formation.image_url ? (
+                <div className="relative w-full h-48 bg-gray-100">
+                  <Image
+                    src={formation.image_url}
+                    alt={formation.title}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              ) : (
+                <div className="relative w-full h-48 bg-gradient-to-br from-bleu-nuit to-blue-900 flex items-center justify-center">
+                  <ImageIcon className="h-16 w-16 text-dore/30" />
+                </div>
+              )}
+
               <CardHeader className="pb-3">
                 <div className="flex justify-between items-start">
                   <CardTitle className="text-lg">{formation.title}</CardTitle>

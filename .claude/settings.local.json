@@ -4,7 +4,9 @@
       "WebSearch",
       "WebFetch(domain:developers.paydunya.com)",
       "WebFetch(domain:github.com)",
-      "WebFetch(domain:www.npmjs.com)"
+      "WebFetch(domain:www.npmjs.com)",
+      "mcp__supabase__list_tables",
+      "Bash(dir:*)"
     ],
     "deny": [],
     "ask": []

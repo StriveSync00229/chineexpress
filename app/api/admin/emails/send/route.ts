@@ -38,15 +38,43 @@ export async function POST(request: NextRequest) {
 
     if (error) throw error
 
-    // Ici vous pouvez intégrer un service d'envoi d'emails comme Resend, SendGrid, etc.
-    // Pour l'instant, on simule l'envoi
-    console.log('Emails à envoyer:', emails?.map(e => e.email))
-    console.log('Sujet:', subject)
-    console.log('Contenu:', content)
+    if (!emails || emails.length === 0) {
+      return NextResponse.json({
+        success: true,
+        emailsSent: 0,
+        message: 'Aucun destinataire trouvé'
+      })
+    }
+
+    // Envoyer les emails avec Nodemailer
+    const { sendBulkEmail } = await import('@/lib/email/service')
+
+    let successCount = 0
+    let failureCount = 0
+
+    console.log(`📧 Envoi d'emails marketing à ${emails.length} destinataires...`)
+
+    // Envoyer les emails en parallèle avec Promise.all
+    const results = await Promise.allSettled(
+      emails.map(emailObj => sendBulkEmail(emailObj.email, subject, content))
+    )
+
+    results.forEach((result, index) => {
+      if (result.status === 'fulfilled' && result.value.success) {
+        successCount++
+      } else {
+        failureCount++
+        console.error(`❌ Échec envoi à ${emails[index].email}`)
+      }
+    })
+
+    console.log(`✅ Emails envoyés: ${successCount} réussis, ${failureCount} échoués`)
 
     return NextResponse.json({
       success: true,
-      emailsSent: emails?.length || 0
+      emailsSent: successCount,
+      emailsFailed: failureCount,
+      total: emails.length
     })
 
   } catch (error) {

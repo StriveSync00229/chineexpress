@@ -35,13 +35,29 @@ export async function POST(request: NextRequest) {
       currency,
       promoCode,
       discount,
-      maxParticipants
+      maxParticipants,
+      imageUrl
     } = body
 
     // Validation des données
     if (!title || !date || !price || !currency || !maxParticipants) {
       return NextResponse.json(
         { error: 'Données manquantes' },
+        { status: 400 }
+      )
+    }
+
+    // Validation du prix
+    if (typeof price !== 'number' || isNaN(price) || price <= 0) {
+      return NextResponse.json(
+        { error: 'Prix invalide' },
+        { status: 400 }
+      )
+    }
+
+    if (price > 9999999999999.99) {
+      return NextResponse.json(
+        { error: 'Le prix ne peut pas dépasser 9,999,999,999,999.99' },
         { status: 400 }
       )
     }
@@ -60,6 +76,7 @@ export async function POST(request: NextRequest) {
         promo_code: promoCode,
         discount,
         max_participants: maxParticipants,
+        image_url: imageUrl,
         status: 'active' as const
       })
       .select()

@@ -24,7 +24,8 @@ const config = {
         "rouge-profond": "#D7263D",      // Rouge chinois énergique
         "gris-anthracite": "#2E2E2E",    // Gris stable
         "blanc-pur": "#FFFFFF",          // Blanc de confiance
-        
+        "blanc": "#FFFFFF",              // Alias pour compatibilité
+
         // Couleurs complémentaires conservées
         "bleu-nuit": "#0D1B2A",          // Bleu nuit profond
         dore: "#FFC857",                 // Doré chaleureux

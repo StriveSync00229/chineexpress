@@ -161,6 +161,7 @@ export interface FormationInscriptionData {
   status: PaymentStatus
   amount?: number
   payment_date?: string
+  payment_token?: string // Token unique PayDunya pour tracer la transaction
 }
 
 /**

@@ -17,13 +17,18 @@ import {
 
 interface ContactSubmission {
   id: string
+  type: 'contact'
   name: string
   email: string
   phone?: string
-  subject: string
+  country_city?: string
+  address?: string
+  subject?: string
+  service?: string
   message: string
   status: 'pending' | 'processed'
   created_at: string
+  updated_at: string
 }
 
 export default function ContactsAdmin() {
@@ -184,15 +189,31 @@ export default function ContactsAdmin() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <div className="flex items-center text-sm text-gray-600">
-                  <Mail className="h-4 w-4 mr-2 text-dore" />
-                  <span className="font-semibold text-bleu-nuit">Sujet: {contact.subject}</span>
-                </div>
+                {contact.subject && (
+                  <div className="flex items-center text-sm text-gray-600">
+                    <Mail className="h-4 w-4 mr-2 text-dore" />
+                    <span className="font-semibold text-bleu-nuit">Sujet: {contact.subject}</span>
+                  </div>
+                )}
 
                 {contact.phone && (
                   <div className="flex items-center text-sm text-gray-600">
                     <span className="mr-2">📞</span>
                     <span className="text-bleu-nuit font-medium">{contact.phone}</span>
+                  </div>
+                )}
+
+                {contact.country_city && (
+                  <div className="flex items-center text-sm text-gray-600">
+                    <span className="mr-2">📍</span>
+                    <span className="text-bleu-nuit font-medium">{contact.country_city}</span>
+                  </div>
+                )}
+
+                {contact.service && (
+                  <div className="flex items-center text-sm text-gray-600">
+                    <span className="mr-2">🏢</span>
+                    <span className="text-bleu-nuit font-medium">Service: {contact.service}</span>
                   </div>
                 )}
 

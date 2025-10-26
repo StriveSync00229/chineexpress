@@ -2,7 +2,10 @@ import { createBrowserClient, createServerClient } from '@supabase/ssr'
 import { createClient as createSupabaseClient } from '@supabase/supabase-js'
 import { cookies } from 'next/headers'
 
-// Types pour les tables (interfaces temporaires)
+/**
+ * Types pour les tables Supabase
+ * Alignés avec le schéma actuel de la base de données
+ */
 export interface Formation {
   id: string
   title: string
@@ -16,6 +19,7 @@ export interface Formation {
   discount?: number
   max_participants: number
   current_participants: number
+  image_url?: string
   status: 'active' | 'completed' | 'cancelled'
   created_at: string
   updated_at: string
@@ -31,6 +35,7 @@ export interface FormationInscription {
   status: 'pending' | 'paid' | 'cancelled'
   payment_date?: string
   amount?: number
+  payment_token?: string  // Token PayDunya pour tracer la transaction
   created_at: string
 }
 
@@ -57,6 +62,28 @@ export interface QuoteRequest {
   message?: string
   status: 'pending' | 'quoted' | 'completed'
   created_at: string
+}
+
+export interface Submission {
+  id: string
+  type: 'contact' | 'devis'
+  name: string
+  email: string
+  phone?: string
+  country_city?: string
+  message: string
+  // Champs spécifiques aux devis
+  product?: string
+  quantity?: string
+  budget?: string
+  // Champs spécifiques aux contacts
+  address?: string
+  subject?: string
+  service?: string
+  // Métadonnées
+  status: 'pending' | 'processed' | 'quoted' | 'completed'
+  created_at: string
+  updated_at: string
 }
 
 // Client pour le navigateur (côté client)

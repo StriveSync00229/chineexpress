@@ -17,16 +17,19 @@ import {
 
 interface QuoteRequest {
   id: string
+  type: 'devis'
   name: string
   email: string
   phone?: string
-  country?: string
-  product: string
+  country_city?: string
+  product?: string
   quantity?: string
   budget?: string
   message?: string
+  service?: string
   status: 'pending' | 'quoted' | 'completed'
   created_at: string
+  updated_at: string
 }
 
 export default function DevisAdmin() {
@@ -206,11 +209,13 @@ export default function DevisAdmin() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-2">
-                  <div className="flex items-center text-sm text-gray-600">
-                    <User className="h-4 w-4 mr-2 text-dore" />
-                    <span className="font-semibold text-bleu-nuit">{quote.product}</span>
-                    {quote.quantity && <span className="ml-2 text-dore">• Qté: {quote.quantity}</span>}
-                  </div>
+                  {quote.product && (
+                    <div className="flex items-center text-sm text-gray-600">
+                      <User className="h-4 w-4 mr-2 text-dore" />
+                      <span className="font-semibold text-bleu-nuit">{quote.product}</span>
+                      {quote.quantity && <span className="ml-2 text-dore">• Qté: {quote.quantity}</span>}
+                    </div>
+                  )}
 
                   {quote.budget && (
                     <div className="flex items-center text-sm text-gray-600">
@@ -219,10 +224,24 @@ export default function DevisAdmin() {
                     </div>
                   )}
 
-                  {quote.country && (
+                  {quote.phone && (
+                    <div className="flex items-center text-sm text-gray-600">
+                      <span className="mr-2">📞</span>
+                      <span className="text-bleu-nuit font-medium">{quote.phone}</span>
+                    </div>
+                  )}
+
+                  {quote.country_city && (
                     <div className="flex items-center text-sm text-gray-600">
                       <span className="mr-2">🌍</span>
-                      <span className="text-bleu-nuit font-medium">{quote.country}</span>
+                      <span className="text-bleu-nuit font-medium">{quote.country_city}</span>
+                    </div>
+                  )}
+
+                  {quote.service && (
+                    <div className="flex items-center text-sm text-gray-600">
+                      <span className="mr-2">🏢</span>
+                      <span className="text-bleu-nuit font-medium">Service: {quote.service}</span>
                     </div>
                   )}
 

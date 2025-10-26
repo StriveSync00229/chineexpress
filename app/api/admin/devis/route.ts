@@ -1,16 +1,14 @@
 import { NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
-
-const supabase = createClient(supabaseUrl, supabaseServiceKey)
+import { createAdminClient } from '@/lib/supabase'
 
 export async function GET() {
   try {
+    const supabase = createAdminClient()
+
     const { data: quotes, error } = await supabase
-      .from('quote_requests')
+      .from('submissions')
       .select('*')
+      .eq('type', 'devis')
       .order('created_at', { ascending: false })
 
     if (error) throw error

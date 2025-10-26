@@ -8,7 +8,7 @@ export const createEmailTransporter = () => {
     return null
   }
 
-  const transporter = nodemailer.createTransporter({
+  const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: parseInt(process.env.SMTP_PORT),
     secure: process.env.SMTP_SECURE === 'true', // true pour port 465, false pour autres ports
